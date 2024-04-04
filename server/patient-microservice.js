@@ -4,6 +4,7 @@ const { ApolloServer } = require('apollo-server-express');  // Import Apollo Ser
 const mongoose = require('mongoose');  // Import Mongoose for MongoDB interaction
 const patientResolvers = require('./schema/patientResolvers');  // Import resolvers for patient schema
 const patientTypeDefs = require('./schema/patientTypeDefs');  // Import type definitions for patient schema
+const Patient = require('./models/Patient');  // Import Patient model
 
 // Initialize Express app
 const app = express();
@@ -17,7 +18,10 @@ async function startApolloServer() {
   const server = new ApolloServer({
     typeDefs: patientTypeDefs,
     resolvers: patientResolvers,
-    context: ({ req }) => ({ req }),  // Pass request object to resolvers
+    context: ({ req }) => ({
+      req,
+      Patient  // Pass Patient model to context
+    }),  
   });
 
   // Start Apollo Server

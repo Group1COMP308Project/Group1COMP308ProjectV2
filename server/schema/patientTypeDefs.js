@@ -7,10 +7,16 @@ const patientTypeDefs = gql`
     lastName: String!
     email: String!
     password: String!
+    visits: [Visit]  # Define a field to fetch all visits associated with the patient
+  }
+
+  type Visit {
+    id: ID!
     bodyTemperature: Float
     heartRate: Float
     bloodPressure: String
     respiratoryRate: Float
+    patient: Patient  # Define a field to fetch the patient associated with the visit
   }
 
   type AuthPayload {
@@ -25,6 +31,7 @@ const patientTypeDefs = gql`
   type Mutation {
     signup(firstName: String!, lastName: String!, email: String!, password: String!): AuthPayload
     login(email: String!, password: String!): AuthPayload
+    addVisit(email: String!, bodyTemperature: Float, heartRate: Float, bloodPressure: String, respiratoryRate: Float): Visit
   }
 `;
 

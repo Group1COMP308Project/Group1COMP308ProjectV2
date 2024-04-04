@@ -19,20 +19,26 @@ const patientSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
-  },
-  bodyTemperature: {
-    type: Number
-  },
-  heartRate: {
-    type: Number
-  },
-  bloodPressure: {
-    type: String
-  },
-  respiratoryRate: {
-    type: Number
   }
 });
+
+
+// Set the 'fullname' virtual property
+patientSchema.virtual('fullName').get(function() {
+	return this.firstName + ' ' + this.lastName;
+}).set(function(fullName) {
+	const splitName = fullName.split(' ');
+	this.firstName = splitName[0] || '';
+	this.lastName = splitName[1] || '';
+});
+
+// Configure the 'patientSchema' to use getters and virtuals when transforming to JSON
+patientSchema.set('toJSON', {
+	getters: true,
+	virtuals: true
+});
+
+
 
 const Patient = mongoose.model('Patient', patientSchema);
 

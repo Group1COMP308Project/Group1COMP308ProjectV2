@@ -2,6 +2,7 @@
 const bcrypt = require('bcryptjs');  // Import bcrypt for password hashing
 const jwt = require('jsonwebtoken');  // Import jsonwebtoken for token creation
 const Patient = require('../models/Patient');  // Import Patient model
+const Visit = require('../models/Visit');
 
 // Function to create JWT token
 const createToken = (patient, secret) => {
@@ -59,8 +60,32 @@ const resolvers = {
       // Return token and patient information
       return { token, patient };
     },
+    // Resolver for adding a new visit for a patient
+    addVisit: async (_, { email, bodyTemperature, heartRate, bloodPressure, respiratoryRate }) => {
+      // Find patient by email
+      const patient = await Patient.findOne({ email });
+      
+      // If patient not found, throw error
+      if (!patient) {
+        throw new Error('Patient not found');
+      }
+      
+      // Create the visit and associate it with the patient
+      const visit = new Visit({
+        bodyTemperature,
+        heartRate,
+        bloodPressure,
+        respiratoryRate,
+        patient: patient._id, // Associate visit with patient's ID
+      });
+      
+      // Save the visit to the database
+      await visit.save();
+      
+      // Return the created visit
+      return visit;
+    },
   },
 };
 
-// Export resolvers
 module.exports = resolvers;
