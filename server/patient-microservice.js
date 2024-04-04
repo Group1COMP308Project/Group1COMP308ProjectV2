@@ -6,7 +6,7 @@ const patientResolvers = require('./schema/patientResolvers');  // Import resolv
 const patientTypeDefs = require('./schema/patientTypeDefs');  // Import type definitions for patient schema
 const Patient = require('./models/Patient');  // Import Patient model
 
-// Initialize Express app
+// Initialize Express appgf
 const app = express();
 
 // Define port to listen on, using environment variable if available, else fallback to 4001
