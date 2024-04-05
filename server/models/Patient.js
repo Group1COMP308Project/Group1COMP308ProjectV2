@@ -14,11 +14,16 @@ const patientSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true, 
+    match: [/.+\@.+\..+/, "Please fill a valid email address"]
   },
   password: {
     type: String,
-    required: true
+    required: true, 
+    validate: [
+			(password) => password && password.length > 6,
+			'Password should be longer'
+		]
   }
 });
 
