@@ -14,7 +14,7 @@ const NursePage = ({ setToken }) => {
     console.log("Button 2 clicked"); // Log button 2 click
   };
 
-  // Function to handle button 3 click
+  // Function to handle button 3 click - daily motivational tips
   const handleButton3Click = () => {
     console.log("Button 3 clicked"); // Log button 3 click
   };
