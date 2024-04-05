@@ -1,5 +1,8 @@
 // Import React library
-import React from 'react';
+// import React from 'react';
+
+import React, { useState } from 'react';
+import SendMotivationalTips from './SendMotivationalTips'; 
 
 // NursePage component definition
 const NursePage = ({ setToken }) => {
@@ -17,12 +20,17 @@ const NursePage = ({ setToken }) => {
   // Function to handle button 3 click - daily motivational tips
   const handleButton3Click = () => {
     console.log("Button 3 clicked"); // Log button 3 click
+    setSendMotivationalTipsVisible(true);
   };
 
   // Function to handle button 4 click
   const handleButton4Click = () => {
     console.log("Button 4 clicked"); // Log button 4 click
   };
+
+  // State variable to control the visibility of the MotivationalTips component
+  const [sendMotivationalTipsVisible, setSendMotivationalTipsVisible] = useState(false);
+
 
   // Return JSX for NursePage component
   return (
@@ -36,6 +44,8 @@ const NursePage = ({ setToken }) => {
         <button onClick={handleButton4Click}>Intelligent use of symptoms </button>
         <LogoutButton setToken={setToken} /> {/* Render LogoutButton component */}
       </div>
+      {/* Render MotivationalTips component if motivationalTipsVisible is true */}
+      {sendMotivationalTipsVisible && <SendMotivationalTips />}
     </div>
   );
 };
