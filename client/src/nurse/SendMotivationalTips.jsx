@@ -41,7 +41,9 @@ const SendMotivationalTips = ({ userId }) => {
           <h2>Send Motivational Tips</h2>
           <form onSubmit={handleSubmit}>
             <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Enter motivational tip" />
-            <button type="submit">Send</button>
+            <br></br>
+            <br></br>
+            <button type="submit">Send to Patient</button>
           </form>
         </div>
       );
