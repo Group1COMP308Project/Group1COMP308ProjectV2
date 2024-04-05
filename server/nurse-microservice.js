@@ -5,6 +5,8 @@ const mongoose = require('mongoose');  // Import Mongoose for MongoDB interactio
 const resolvers = require('./schema/nurseResolver');  // Import resolvers
 const typeDefs = require('./schema/nurseTypeDefs');  // Import type definitions
 
+const MotivationalTips = require('./models/MotivationalTips');
+
 // Initialize Express app
 const app = express();
 
