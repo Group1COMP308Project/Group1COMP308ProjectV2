@@ -3,19 +3,15 @@ import { useQuery, gql } from '@apollo/client';
 
 
 
-bodytemperature
-heartRate
-bloodpressure
-respitatoryrate
-
-
 
 const GET_VITAL_SIGNS = gql`
   query GetVitalSigns {
     vitalSigns {
       id
-      type
-      value
+      bodytemperature
+      heartrate
+      bloodpressure
+      respitoryrate
     }
   }
 `;
@@ -23,16 +19,19 @@ const GET_VITAL_SIGNS = gql`
 function VitalSignsList() {
   const { loading, error, data } = useQuery(GET_VITAL_SIGNS);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <p>Loading Vitals...</p>;
   if (error) return <p>Error :(</p>;
 
   return (
     <div>
       <h3>Vital Signs:</h3>
       <ul>
-        {data.vitalSigns.map(({ id, type, value }) => (
+        {data.vitalSigns.map(({ id,bodytemp, bodytemperature,hrate, heartrate,bpressure,bloodpressure,respt,respitoryrate }) => (
           <li key={id}>
-            {type}: {value}
+            {bodytemp}: {bodytemperature}
+            {hrate}: {heartrate}
+            {bpressure}:{bloodpressure}
+            {respt}:{respitoryrate}
           </li>
         ))}
       </ul>
