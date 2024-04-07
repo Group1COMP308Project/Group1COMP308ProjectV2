@@ -13,3 +13,4 @@ const FitnessGamesSchema = new mongoose.Schema({
 
 const FitnessGame = mongoose.model('Fitness Game',FitnessGamesSchema);
 module.exports = FitnessGame;
+
