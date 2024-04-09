@@ -1,5 +1,4 @@
 // Import required modules
-//test
 import React, { useState } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 

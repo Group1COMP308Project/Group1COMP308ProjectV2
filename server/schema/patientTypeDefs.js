@@ -12,11 +12,12 @@ const patientTypeDefs = gql`
 
   type Visit {
     id: ID!
-    bodyTemperature: Float
-    heartRate: Float
-    bloodPressure: String
-    respiratoryRate: Float
-    patient: Patient  # Define a field to fetch the patient associated with the visit
+    bodyTemperature: Float!
+    heartRate: Float!
+    bloodPressure: String!
+    respiratoryRate: Float!
+    patient: Patient!
+    # Add more fields as needed
   }
 
   type AuthPayload {
@@ -26,6 +27,7 @@ const patientTypeDefs = gql`
 
   type Query {
     me: Patient  # Sample query to fetch patient details
+    allVisits: [Visit!]!
   }
 
   type Mutation {

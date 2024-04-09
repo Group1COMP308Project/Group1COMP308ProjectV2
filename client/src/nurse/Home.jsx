@@ -1,67 +1,69 @@
-// Import React library
-// import React from 'react';
-
 import React, { useState } from 'react';
-import SendMotivationalTips from './SendMotivationalTips'; 
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'; // Import ApolloClient and related modules
 
-// NursePage component definition
+// Import AddVisitForm component
+import CreateVitals from './CreateVitals';
+import ListVisits from './ListVisits'; // Import the ListVisits component
+
+// Create an Apollo Client instance for the patient service
+const patientClient = new ApolloClient({
+  uri: 'http://localhost:4001/graphql', // Patient service URL
+  cache: new InMemoryCache()
+});
+
 const NursePage = ({ setToken }) => {
-  
-  // Function to handle button 1 click
+  const [showAddVisitForm, setShowAddVisitForm] = useState(false); // State to control the visibility of the AddVisitForm
+
   const handleButton1Click = () => {
-    console.log("Button 1 clicked"); // Log button 1 click
+    // Handle button 1 click
+    console.log("Button 1 clicked");
+    setShowAddVisitForm(true); // Show AddVisitForm when Button 1 is clicked
   };
 
-  // Function to handle button 2 click
   const handleButton2Click = () => {
-    console.log("Button 2 clicked"); // Log button 2 click
+    // Handle button 2 click
+    console.log("Button 2 clicked");
+    setShowAddVisitForm(false); // Set showAddVisitForm to false to hide AddVisitForm
   };
 
-  // Function to handle button 3 click - daily motivational tips
   const handleButton3Click = () => {
-    console.log("Button 3 clicked"); // Log button 3 click
-    setSendMotivationalTipsVisible(true);
+    // Handle button 3 click
+    console.log("Button 3 clicked");
   };
 
-  // Function to handle button 4 click
   const handleButton4Click = () => {
-    console.log("Button 4 clicked"); // Log button 4 click
+    // Handle button 4 click
+    console.log("Button 4 clicked");
   };
 
-  // State variable to control the visibility of the MotivationalTips component
-  const [sendMotivationalTipsVisible, setSendMotivationalTipsVisible] = useState(false);
-
-
-  // Return JSX for NursePage component
   return (
     <div className="nurse-page">
-      <h1>Nurse Page</h1>
-      <p>Welcome to the Nurse Page. Here you can access nurse-specific features.</p>
-      <div className="button-container">
-        <button onClick={handleButton1Click}>Enter vital signs</button>
-        <button onClick={handleButton2Click}>Access information</button>
-        <button onClick={handleButton3Click}>Send daily motivational tips </button>
-        <button onClick={handleButton4Click}>Intelligent use of symptoms </button>
-        <LogoutButton setToken={setToken} /> {/* Render LogoutButton component */}
-      </div>
-      {/* Render MotivationalTips component if motivationalTipsVisible is true */}
-      {sendMotivationalTipsVisible && <SendMotivationalTips />}
+      <ApolloProvider client={patientClient}> {/* Provide the Apollo client to child components */}
+        <h1>Nurse Page</h1>
+        <p>Welcome to the Nurse Page. Here you can access patient-specific features.</p>
+        <div className="button-container">
+          <button onClick={handleButton1Click}>Add Visit</button>
+          <button onClick={handleButton2Click}>Previous Clinics Info</button>
+          <button onClick={handleButton3Click}>Send Daily Motivation</button>
+          <button onClick={handleButton4Click}>Intelligence</button>
+          <LogoutButton setToken={setToken} />
+        </div>
+        {showAddVisitForm ? <CreateVitals /> : <ListVisits />} {/* Conditionally render CreateVitals or ListVisits component based on showAddVisitForm state */}
+      </ApolloProvider>
     </div>
   );
 };
 
-// LogoutButton component definition
 const LogoutButton = ({ setToken }) => {
-  // Function to handle logout button click
-  const handleLogout = () => { 
-    setToken(null); // Set token to null on logout
+  const handleLogout = () => {
+    // Perform logout logic here (e.g., clear token)
+    setToken(null);
+    // Handle successful logout (e.g., redirect user)
   };
 
-  // Return JSX for LogoutButton component
   return (
     <button onClick={handleLogout}>Logout</button>
   );
 };
 
-// Export NursePage component
 export default NursePage;

@@ -1,62 +1,75 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { gql } from 'apollo-boost';
-import { validateSDL } from 'graphql/validation/validate';
+import { useMutation, gql } from '@apollo/client';
 
-//Create Vitals done
-
-
-const ADD_VITAL_SIGN = gql`
-  mutation AddVitalSign($Id: Float!,$bodytemperature:Float!,
-$heartRate: Int!,$bloodpressure:Float!,$respiratoryrate: Float!) {
-    addVitalSign(bodytemperature: $bodytemperature,
-    heartRate: $heartRate,bloodpressure: $bloodpressure,respitoryrate:$respiratoryrate) {
+const ADD_VISIT_MUTATION = gql`
+  mutation AddVisit($email: String!, $bodyTemperature: Float!, $heartRate: Float!, $bloodPressure: String!, $respiratoryRate: Float!) {
+    addVisit(email: $email, bodyTemperature: $bodyTemperature, heartRate: $heartRate, bloodPressure: $bloodPressure, respiratoryRate: $respiratoryRate) {
       id
-      bodytemperature
+      bodyTemperature
       heartRate
-      bloodpressure
-      respitatoryrate
-     
+      bloodPressure
+      respiratoryRate
     }
   }
 `;
 
-const VitalSignsForm = () => {
-    const [bodytemperature, setBodytemperature]= useState('');
-    const [heartRate,setHeartrate] = useState('');
-    const [bloodpressure,setBloodpressure] = useState('');
-    const [respitatoryrate,setRespitoryrate] = useState('');
- 
+const AddVisitForm = () => {
+  // State variables to store form input values
+  const [email, setEmail] = useState('');
+  const [bodyTemperature, setBodyTemperature] = useState(0);
+  const [heartRate, setHeartRate] = useState(0);
+  const [bloodPressure, setBloodPressure] = useState('');
+  const [respiratoryRate, setRespiratoryRate] = useState(0);
 
-  const [addVitalSign] = useMutation(ADD_VITAL_SIGN);
+  // Mutation hook for adding a new visit
+  const [addVisit, { loading, error }] = useMutation(ADD_VISIT_MUTATION);
 
+  // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await addVitalSign({ 
-        bodytemperature:{value: parseFloat(value)},
-        heartRate: {value: parseFloat(value)},
-        bloodpressure: {value: parseFloat(value)},
-        respitoryrate: {value: parseFloat(value)},
-        
-    });
-      alert('Vital signs added successfully');
+      // Execute the addVisit mutation with form data
+      await addVisit({ variables: { email, bodyTemperature, heartRate, bloodPressure, respiratoryRate } });
+      // Reset form fields after successful submission
+      setEmail('');
+      setBodyTemperature(0);
+      setHeartRate(0);
+      setBloodPressure('');
+      setRespiratoryRate(0);
     } catch (error) {
-      alert(error.message);
+      console.error('Error adding visit:', error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h2>Add Vital Sign</h2>
-      <input type="number" placeholder="Enter Body Temperature" value={bodytemperature} onChange={(e) => setBodytemperature(e.target.value)} />
-      <input type="number" placeholder="Enter Heart Rate" value={heartRate} onChange={(e) => setHeartrate(e.target.value)}/>
-      <input type="number" placeholder="Enter Blood pressure" value={bloodpressure} onChange={(e)=> setBloodpressure(e.target.value)}/>
-      <input type="number" placeholder="Enter Respitory Rate" value={respitatoryrate} onChange={(e) => setRespitoryrate(e.target.value)}/>
-
-      <button type="submit">Add Vital Signs</button>
-    </form>
+    <div>
+      <h2>Add New Visit</h2>
+      {error && <p>Error: {error.message}</p>}
+      <form onSubmit={handleSubmit}>
+        <label>
+          Email:
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        </label>
+        <label>
+          Body Temperature:
+          <input type="number" value={bodyTemperature} onChange={(e) => setBodyTemperature(parseFloat(e.target.value))} required />
+        </label>
+        <label>
+          Heart Rate:
+          <input type="number" value={heartRate} onChange={(e) => setHeartRate(parseFloat(e.target.value))} required />
+        </label>
+        <label>
+          Blood Pressure:
+          <input type="text" value={bloodPressure} onChange={(e) => setBloodPressure(e.target.value)} required />
+        </label>
+        <label>
+          Respiratory Rate:
+          <input type="number" value={respiratoryRate} onChange={(e) => setRespiratoryRate(parseFloat(e.target.value))} required />
+        </label>
+        <button type="submit" disabled={loading}>Submit</button>
+      </form>
+    </div>
   );
 };
 
-export default VitalSignsForm;
+export default AddVisitForm;

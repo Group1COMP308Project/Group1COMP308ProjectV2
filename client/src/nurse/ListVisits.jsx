@@ -1,54 +1,42 @@
 import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 
-
-
-
-const GET_VISITS = gql`
-  query GetVitalSigns {
-    nurse {
-    id
-    firstname
-    lastname
-    email
-}
-    patient {
-    id
-    bodytemperature
-    heartrate
-    bloodpressure
-    respitoryrate
-
+const ALL_VISITS_QUERY = gql`
+  query {
+    allVisits {
+      id
+      bodyTemperature
+      heartRate
+      bloodPressure
+      respiratoryRate
+     
     }
   }
 `;
 
-function FetchVisits() {
-  const { loading, error, data } = useQuery(GET_VISITS);
+const AllVisits = () => {
+  const { loading, error, data } = useQuery(ALL_VISITS_QUERY);
 
-  if (loading) return <p>Loading Vitals...</p>;
-  if (error) return <p>Error :(</p>;
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
-      <h3>Clinical Visits:</h3>
+      <h1>All Visits</h1>
       <ul>
-        {data.GetVitalSigns.map(({idnurse,firstname,
-        fname,lname,lastname,mail,email,_id, id,bodytemp, bodytemperature,hrate, heartrate,bpressure,bloodpressure,respt,respitoryrate }) => (
-          <li key={idnurse}>
-            {firstname}:{fname}
-            {lastname}:{lname}
-            {email}:{mail}
-            {id}:{_id}
-            {bodytemp}: {bodytemperature}
-            {hrate}: {heartrate}
-            {bpressure}:{bloodpressure}
-            {respt}:{respitoryrate}
+        {data.allVisits.map(visit => (
+          <li key={visit.id}>
+            <strong>Visit ID:</strong> {visit.id}<br />
+            <strong>Body Temperature:</strong> {visit.bodyTemperature}<br />
+            <strong>Heart Rate:</strong> {visit.heartRate}<br />
+            <strong>Blood Pressure:</strong> {visit.bloodPressure}<br />
+            <strong>Respiratory Rate:</strong> {visit.respiratoryRate}<br />
+            
           </li>
         ))}
       </ul>
     </div>
   );
-}
+};
 
-export default FetchVisits;
+export default AllVisits;

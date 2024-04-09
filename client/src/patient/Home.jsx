@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AddVisitForm from './CreateFitnessActivity'; // Import the component to add a visit
+// Import required modules
 
 const PatientPage = ({ setToken }) => {
-
+  const [showAddVisitForm, setShowAddVisitForm] = useState(false); // State to control the visibility of the AddVisitForm
 
   const handleButton1Click = () => {
     // Handle button 1 click
     console.log("Button 1 clicked");
+    setShowAddVisitForm(true); // Show AddVisitForm when Button 1 is clicked
   };
 
   const handleButton2Click = () => {
@@ -28,12 +31,13 @@ const PatientPage = ({ setToken }) => {
       <h1>Patient Page</h1>
       <p>Welcome to the Patient Page. Here you can access patient-specific features.</p>
       <div className="button-container">
-        <button onClick={handleButton1Click}>Create and send an emergency alert </button>
-        <button onClick={handleButton2Click}>Fitness games page </button>
-        <button onClick={handleButton3Click}>Enter daily information </button>
-        <button onClick={handleButton4Click}>Checklist of common signs and symptoms </button>
+        <button onClick={handleButton1Click}>Create and send an emergency alert</button>
+        <button onClick={handleButton2Click}>Fitness games page</button>
+        <button onClick={handleButton3Click}>Enter daily information</button>
+        <button onClick={handleButton4Click}>Checklist of common signs and symptoms</button>
         <LogoutButton setToken={setToken} />
       </div>
+      {showAddVisitForm && <AddVisitForm />} {/* Conditionally render AddVisitForm */}
     </div>
   );
 };

@@ -44,6 +44,7 @@ const resolvers = {
       const token = jwt.sign({ userId: nurse.id }, 'mysecretkey');
       return { token, nurse };
     },
+    
   },
 };
 

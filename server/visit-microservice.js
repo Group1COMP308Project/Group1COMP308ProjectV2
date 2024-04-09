@@ -2,22 +2,26 @@
 const express = require('express');  // Import Express framework
 const { ApolloServer } = require('apollo-server-express');  // Import Apollo Server
 const mongoose = require('mongoose');  // Import Mongoose for MongoDB interaction
-const resolvers = require('./Resolvers/nurseResolver');  // Import resolvers
-const typeDefs = require('./schema/nurseTypeDefs');  // Import type definitions
+const visitResolvers = require('./Resolvers/visitResolver');  // Import resolvers for visit schema
+const visitTypeDefs = require('./schema/visitTypeDefs');  // Import type definitions for patient schema
+const Visit = require('./models/Visit');  // Import type definitions for visit schema
 
 // Initialize Express app
 const app = express();
 
-// Define port to listen on, using environment variable if available, else fallback to 4000
-const PORT = process.env.PORT || 4000;
+// Define port to listen on, using environment variable if available, else fallback to 4001
+const PORT = process.env.PORT || 4002;
 
 // Asynchronous function to start Apollo Server
 async function startApolloServer() {
   // Create ApolloServer instance with type definitions, resolvers, and context
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req }) => ({ req }),  // Pass request object to resolvers
+    typeDefs: visitTypeDefs,
+    resolvers: visitResolvers,
+    context: ({ req }) => ({
+      req,
+      Visit  // Pass Patient model to context
+    }),  
   });
 
   // Start Apollo Server
@@ -33,7 +37,7 @@ async function startApolloServer() {
 }
 
 // Connect to MongoDB database
-mongoose.connect('mongodb://localhost/nurseDB2', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/visitDB', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     // Log successful MongoDB connection
     console.log('MongoDB connected');
