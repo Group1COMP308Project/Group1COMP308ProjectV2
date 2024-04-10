@@ -2,8 +2,18 @@
 const express = require('express');  // Import Express framework
 const { ApolloServer } = require('apollo-server-express');  // Import Apollo Server
 const mongoose = require('mongoose');  // Import Mongoose for MongoDB interaction
-const resolvers = require('./Resolvers/nurseResolver');  // Import resolvers
-const typeDefs = require('./schema/nurseTypeDefs');  // Import type definitions
+const nurseResolvers = require('./Resolvers/nurseResolver');  // Import resolvers
+const nurseTypeDefs = require('./schema/nurseTypeDefs');  // Import type definitions
+const Nurse = require('./models/Nurse')
+
+
+const motivationResolvers = require('./Resolvers/motivationTipResolver');  // Import resolvers
+const motivationTypeDefs = require('./schema/motivationTypeDefs');  // Import type definitions
+const Motivation = require('./models/MotivationTip');  // Import type definitions
+
+
+
+
 
 // Initialize Express app
 const app = express();
@@ -15,9 +25,10 @@ const PORT = process.env.PORT || 4000;
 async function startApolloServer() {
   // Create ApolloServer instance with type definitions, resolvers, and context
   const server = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req }) => ({ req }),  // Pass request object to resolvers
+    typeDefs: [nurseTypeDefs, motivationTypeDefs],
+    resolvers: [nurseResolvers, motivationResolvers],
+
+    context: ({ req }) => ({ req, Nurse, Motivation }),  // Pass request object to resolvers
   });
 
   // Start Apollo Server

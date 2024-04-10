@@ -1,52 +1,63 @@
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 
-//defining the mutation for creating motivational tips
-const CREATE_MOTIVATIONAL_TIP = gql`
-  mutation CreateMotivationalTip($content: String!, $authorId: ID!) {
-    createMotivationalTip(content: $content, authorId: $authorId) {
+// Define the mutation for adding a motivational tip
+const ADD_MOTIVATIONAL_TIP = gql`
+  mutation AddMotivationTip($content: String!, $nurseEmail: String!) {
+    addMotivationTip(content: $content, nurseEmail: $nurseEmail) {
       id
       content
-      author {
-        id
-        email
-      }
     }
   }
 `;
 
-// SendMotivationalTips component definition
-const SendMotivationalTips = ({ userId }) => {
-    const [content, setContent] = useState('');
-    const [createMotivationalTip] = useMutation(CREATE_MOTIVATIONAL_TIP);
-  
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        await createMotivationalTip({
-          variables: {
-            content,
-            authorId: userId,
-          },
-        });
-        setContent('');
-        console.log('Motivational tip sent successfully');
-      } catch (error) {
-        console.error('Error sending motivational tip:', error);
-      }
-    };
+const SendMotivationalTips = () => {
+  const [content, setContent] = useState('');
+  const [nurseEmailAddress, setNurseEmailAddress] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [addMotivationTip] = useMutation(ADD_MOTIVATIONAL_TIP);
 
-    return (
-        <div>
-          <h2>Send Motivational Tips</h2>
-          <form onSubmit={handleSubmit}>
-            <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Enter motivational tip" />
-            <br></br>
-            <br></br>
-            <button type="submit">Send to Patient</button>
-          </form>
-        </div>
-      );
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await addMotivationTip({
+        variables: {
+          content,
+          nurseEmail: nurseEmailAddress,
+        },
+      });
+      setContent('');
+      setNurseEmailAddress('');
+      setSuccessMessage('Motivational tip added successfully');
+    } catch (error) {
+      console.error('Error adding motivational tip:', error);
+      setSuccessMessage('Failed to add motivational tip');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Send Motivational Tips</h2>
     
-    export default SendMotivationalTips;
+      <form onSubmit={handleSubmit}>
+        <textarea
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          placeholder="Enter motivational tip"
+        />
+        <br />
+        <input
+          type="text"
+          value={nurseEmailAddress}
+          onChange={(e) => setNurseEmailAddress(e.target.value)}
+          placeholder="Nurse's Email"
+        />
+        <br />
+        <button type="submit">Send Motivational Tip</button>
+        {successMessage && <p>{successMessage}</p>}
+      </form>
+    </div>
+  );
+};
+
+export default SendMotivationalTips;

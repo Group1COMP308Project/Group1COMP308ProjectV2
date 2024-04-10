@@ -1,9 +1,17 @@
 import React, { useState } from 'react';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'; // Import ApolloClient and related modules
 import AddVisitForm from './CreateFitnessActivity'; // Import the component to add a visit
-// Import required modules
+import DailyTips from './DailyTips'; // Import the DailyTips component
+
+// Create an Apollo Client instance for the nurse service
+const nurseClient = new ApolloClient({
+  uri: 'http://localhost:4000/graphql', // Nurse service URL
+  cache: new InMemoryCache()
+});
 
 const PatientPage = ({ setToken }) => {
   const [showAddVisitForm, setShowAddVisitForm] = useState(false); // State to control the visibility of the AddVisitForm
+  const [showDailyTips, setShowDailyTips] = useState(false); // State to control the visibility of the DailyTips component
 
   const handleButton1Click = () => {
     // Handle button 1 click
@@ -26,6 +34,12 @@ const PatientPage = ({ setToken }) => {
     console.log("Button 4 clicked");
   };
 
+  const handleDailyTipsButtonClick = () => {
+    // Handle Daily Tips button click
+    console.log("DailyTipsButton clicked");
+    setShowDailyTips(true); // Show DailyTips component when Daily Tips button is clicked
+  };
+
   return (
     <div className="patient-page">
       <h1>Patient Page</h1>
@@ -35,9 +49,15 @@ const PatientPage = ({ setToken }) => {
         <button onClick={handleButton2Click}>Fitness games page</button>
         <button onClick={handleButton3Click}>Enter daily information</button>
         <button onClick={handleButton4Click}>Checklist of common signs and symptoms</button>
+        <button onClick={handleDailyTipsButtonClick}>Daily Tips</button>
         <LogoutButton setToken={setToken} />
       </div>
       {showAddVisitForm && <AddVisitForm />} {/* Conditionally render AddVisitForm */}
+      {showDailyTips && ( // Conditionally render DailyTips component
+        <ApolloProvider client={nurseClient}>
+          <DailyTips />
+        </ApolloProvider>
+      )}
     </div>
   );
 };
