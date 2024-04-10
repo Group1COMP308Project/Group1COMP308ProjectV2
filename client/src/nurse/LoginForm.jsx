@@ -40,6 +40,7 @@ const LoginForm = ({ setToken, handleLoginSuccess }) => {
 
   // Render login form JSX
   return (
+    
     <div>
       <h2>Nurse Login</h2>
       <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />

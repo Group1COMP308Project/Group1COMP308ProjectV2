@@ -7,7 +7,7 @@ import ListVisits from './ListVisits'; // Import the ListVisits component
 
 // Create an Apollo Client instance for the patient service
 const patientClient = new ApolloClient({
-  uri: 'http://localhost:4001/graphql', // Patient service URL
+  uri: 'http://localhost:4002/graphql', // Patient service URL
   cache: new InMemoryCache()
 });
 

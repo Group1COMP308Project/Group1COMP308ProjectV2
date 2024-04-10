@@ -1,9 +1,7 @@
-//article.server.model.js
 const mongoose = require('mongoose');
 
-//course models with authorId, and student ref
+// Visit Schema
 const VisitSchema = new mongoose.Schema({
-
   bodyTemperature: {
     type: Number
   },
@@ -16,13 +14,16 @@ const VisitSchema = new mongoose.Schema({
   respiratoryRate: {
     type: Number
   },
-  patients: {
+  patient: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Patient'
-}
-
+  },
+  visitDate: {
+    type: Date,
+    default: Date.now // Set default value to current datetime
+  }
 });
 
-const PatientModel = mongoose.model('Visit', VisitSchema);
+const Visit = mongoose.model('Visit', VisitSchema);
 
-module.exports = PatientModel;
+module.exports = Visit;

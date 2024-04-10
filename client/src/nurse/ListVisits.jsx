@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useQuery, gql } from '@apollo/client';
+import './styles/list.css';
 
 const ALL_VISITS_QUERY = gql`
   query {
@@ -9,29 +10,48 @@ const ALL_VISITS_QUERY = gql`
       heartRate
       bloodPressure
       respiratoryRate
-     
+      patient 
+      visitDate
     }
   }
 `;
 
 const AllVisits = () => {
-  const { loading, error, data } = useQuery(ALL_VISITS_QUERY);
+  const [refresh, setRefresh] = useState(false);
+
+  const { loading, error, data, refetch } = useQuery(ALL_VISITS_QUERY, {
+    skip: refresh // Skip query on initial load, and only fetch data on refresh
+  });
+
+  const handleRefresh = () => {
+    setRefresh(true);
+    refetch(); // Refetch data
+    setRefresh(false);
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
+  const formatTimestampToDate = (timestamp) => {
+    const date = new Date(parseInt(timestamp));
+    return date.toLocaleString();
+  };
+
   return (
-    <div>
+    <div className="visit-list-container">
       <h1>All Visits</h1>
-      <ul>
+      <button onClick={handleRefresh}>Refresh</button>
+      <ul className="visit-list">
         {data.allVisits.map(visit => (
-          <li key={visit.id}>
-            <strong>Visit ID:</strong> {visit.id}<br />
-            <strong>Body Temperature:</strong> {visit.bodyTemperature}<br />
-            <strong>Heart Rate:</strong> {visit.heartRate}<br />
-            <strong>Blood Pressure:</strong> {visit.bloodPressure}<br />
-            <strong>Respiratory Rate:</strong> {visit.respiratoryRate}<br />
-            
+          <li key={visit.id} className="visit-item">
+            <div className="visit-details">
+              <div><strong>Visit Date: </strong> {formatTimestampToDate(visit.visitDate)}</div>
+              <div><strong>Body Temperature:</strong> {visit.bodyTemperature}</div>
+              <div><strong>Heart Rate:</strong> {visit.heartRate}</div>
+              <div><strong>Blood Pressure:</strong> {visit.bloodPressure}</div>
+              <div><strong>Respiratory Rate:</strong> {visit.respiratoryRate}</div>
+              <div><strong>Patient ID:</strong> {visit.patient}</div>
+            </div>
           </li>
         ))}
       </ul>

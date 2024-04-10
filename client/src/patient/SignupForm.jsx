@@ -20,16 +20,13 @@ const SignupForm = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const [signup, { loading, error }] = useMutation(SIGNUP_MUTATION);
+  const [signup, { loading, error, data }] = useMutation(SIGNUP_MUTATION);
 
   const handleSignup = async () => {
     try {
-      const { data } = await signup({
+      await signup({
         variables: { firstName, lastName, email, password }
       });
-      console.log(data); // Log the response data
-      // Optionally, you can redirect the user to a new page after successful signup
     } catch (error) {
       console.error(error);
     }
@@ -44,6 +41,9 @@ const SignupForm = () => {
       <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
       <button onClick={handleSignup} disabled={loading}>Sign Up</button>
       {error && <p>Error: {error.message}</p>}
+      {data && data.signup && (
+        <p>Signup Successful! You can now log in with your credentials.</p>
+      )}
     </div>
   );
 };

@@ -1,6 +1,7 @@
 // Import required modules
 import React, { useState } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import './globalStyles.css'; // Import the styles.css file
 
 // Import components
 import NurseSignupForm from './nurse/SignupForm';
@@ -34,18 +35,19 @@ function App() {
   // Render JSX for App component
   return (
     <div className="App">
-      {/* Render user type selection buttons if user is not logged in */}
       {!isLoggedIn && (
-        <div>
-          <h2>Choose User Type</h2>
-          <button onClick={() => setUserType('nurse')}>Nurse</button>
-          <button onClick={() => setUserType('patient')}>Patient</button>
+        <div className="user-selection">
+          <h1>Welcome to Our Healthcare Portal</h1>
+          <p>Please select your role:</p>
+          <div className="user-type-buttons">
+            <button className="patient-button" onClick={() => setUserType('nurse')}>I'm a Nurse</button>
+            <button className="nurse-button" onClick={() => setUserType('patient')}>I'm a Patient</button>
+          </div>
         </div>
       )}
 
-      {/* Render NurseLoginForm, NurseSignupForm, and NurseLogoutButton components if user type is nurse */}
       {userType === 'nurse' && (
-        <div>
+        <div className="user-form">
           <ApolloProvider client={nurseClient}>
             {!token ? <NurseLoginForm setToken={setToken} /> : <NurseLogoutButton setToken={setToken} />}
             {!token && <NurseSignupForm />}
@@ -53,9 +55,8 @@ function App() {
         </div>
       )}
 
-      {/* Render PatientLoginForm, PatientSignupForm, and PatientLogoutButton components if user type is patient */}
       {userType === 'patient' && (
-        <div>
+        <div className="user-form">
           <ApolloProvider client={patientClient}>
             {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
             {!token && <PatientSignupForm />}

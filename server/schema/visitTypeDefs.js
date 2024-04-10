@@ -1,17 +1,53 @@
 const { gql } = require('apollo-server-express');
 
 const visitTypeDefs = gql`
+  type Patient {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    email: String!
+    password: String!
+  }
+
   type Visit {
     id: ID!
     bodyTemperature: Float!
     heartRate: Float!
     bloodPressure: String!
     respiratoryRate: Float!
-    # Add more fields as needed
+    visitDate: String! # New field for visitDate
+    patient: Patient!
+  }
+
+  type VisitDisplay {
+    id: ID!
+    bodyTemperature: Float!
+    heartRate: Float!
+    bloodPressure: String!
+    respiratoryRate: Float!
+    visitDate: String! # New field for visitDate
+    patient: String!
+  }
+
+  type AuthPayload {
+    token: String!
+    patient: Patient!
   }
 
   type Query {
-    allVisits: [Visit!]!
+    me: Patient # Sample query to fetch patient details
+    allVisits: [VisitDisplay!]!
+  }
+
+  type Mutation {
+    addVisit(
+      email: String!
+      bodyTemperature: Float
+      heartRate: Float
+      bloodPressure: String
+      respiratoryRate: Float
+      visitDate: String! # Include visitDate parameter
+    ): Visit
   }
 `;
 

@@ -1,0 +1,38 @@
+.visit-list-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+  
+  .visit-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .visit-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .visit-details {
+    display: table; /* Use table display */
+    width: 100%; /* Make it full width */
+    border-collapse: collapse; /* Collapse border */
+  }
+  
+  .visit-details div {
+    display: table-row; /* Display divs as table rows */
+  }
+  
+  .visit-details div > div {
+    display: table-cell; /* Display divs as table cells */
+    padding: 8px; /* Add padding */
+    border-bottom: 1px solid #ddd; /* Add bottom border */
+  }
+  
+  .visit-details div > div:first-child {
+    font-weight: bold; /* Make the first cell bold */
+  }
+  

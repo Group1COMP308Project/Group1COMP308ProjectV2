@@ -6,6 +6,8 @@ const visitResolvers = require('./Resolvers/visitResolver');  // Import resolver
 const visitTypeDefs = require('./schema/visitTypeDefs');  // Import type definitions for patient schema
 const Visit = require('./models/Visit');  // Import type definitions for visit schema
 
+const Patient = require('./models/Patient');  // Import type definitions for patient schema
+
 // Initialize Express app
 const app = express();
 
@@ -20,7 +22,7 @@ async function startApolloServer() {
     resolvers: visitResolvers,
     context: ({ req }) => ({
       req,
-      Visit  // Pass Patient model to context
+      Visit, Patient  // Pass Patient model to context
     }),  
   });
 
@@ -37,7 +39,7 @@ async function startApolloServer() {
 }
 
 // Connect to MongoDB database
-mongoose.connect('mongodb://localhost/visitDB', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/patientData', { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     // Log successful MongoDB connection
     console.log('MongoDB connected');
