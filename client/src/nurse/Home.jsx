@@ -5,6 +5,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'; //
 import CreateVitals from './CreateVitals';
 import ListVisits from './ListVisits'; // Import the ListVisits component
 import SendMotivationalTips from './SendMotivationalTips'; // Import the SendMotivationalTips component
+import ListEmergencies from './ListEmergencies'; // Import the ListEmergencies component
 
 // Create an Apollo Client instance for the patient service
 const visitClient = new ApolloClient({
@@ -17,49 +18,78 @@ const nurseClient = new ApolloClient({
   cache: new InMemoryCache()
 });
 
+const patientClient = new ApolloClient({
+  uri: 'http://localhost:4001/graphql', // Patient service URL
+  cache: new InMemoryCache()
+});
+
 const NursePage = ({ setToken }) => {
-  const [showAddVisitForm, setShowAddVisitForm] = useState(false); // State to control the visibility of the AddVisitForm
-  const [showSendMotivationForm, setShowSendMotivationForm] = useState(false); // State to control the visibility of the SendMotivationTips form
+  const [showAddVisitForm, setShowAddVisitForm] = useState(false);
+  const [showSendMotivationForm, setShowSendMotivationForm] = useState(false);
+  const [showListVisits, setShowListVisits] = useState(false);
+  const [showListEmergencies, setShowListEmergencies] = useState(false);
 
   const AddVisitButton = () => {
-    setShowAddVisitForm(true); // Show AddVisitForm when Button 1 is clicked
-    setShowSendMotivationForm(false); // Hide SendMotivationTips form
+    setShowAddVisitForm(true);
+    setShowSendMotivationForm(false);
+    setShowListVisits(false);
+    setShowListEmergencies(false);
   };
 
   const ListVisitButton = () => {
-    setShowAddVisitForm(false); // Hide AddVisitForm
-    setShowSendMotivationForm(false); // Hide SendMotivationTips form
+    setShowAddVisitForm(false);
+    setShowSendMotivationForm(false);
+    setShowListVisits(true);
+    setShowListEmergencies(false);
   };
 
   const SendMotivationButton = () => {
-    setShowAddVisitForm(false); // Hide AddVisitForm
-    setShowSendMotivationForm(true); // Show SendMotivationTips form
+    setShowAddVisitForm(false);
+    setShowSendMotivationForm(true);
+    setShowListVisits(false);
+    setShowListEmergencies(false);
+  };
+
+  const EmergencyButton = () => {
+    setShowAddVisitForm(false);
+    setShowSendMotivationForm(false);
+    setShowListVisits(false);
+    setShowListEmergencies(true);
   };
 
   const handleButton4Click = () => {
-    setShowAddVisitForm(false); // Hide AddVisitForm
-    setShowSendMotivationForm(false); // Hide SendMotivationTips form
+    setShowAddVisitForm(false);
+    setShowSendMotivationForm(false);
+    setShowListVisits(false);
+    setShowListEmergencies(false);
   };
 
   return (
     <div className="nurse-page">
-      <ApolloProvider client={visitClient}> {/* Provide the Apollo client to child components */}
+      <ApolloProvider client={visitClient}>
         <h1>Nurse Page</h1>
         <p>Welcome to the Nurse Page. Here you can access patient-specific features.</p>
         <div className="button-container">
           <button onClick={AddVisitButton}>Add Visit</button>
           <button onClick={ListVisitButton}>Previous Clinics Info</button>
           <button onClick={SendMotivationButton}>Send Daily Motivation</button>
+          <button onClick={EmergencyButton}>List Emergencies</button>
           <button onClick={handleButton4Click}>Intelligence</button>
           <LogoutButton setToken={setToken} />
         </div>
-        {showAddVisitForm ? <CreateVitals /> : null} {/* Conditionally render CreateVitals component based on showAddVisitForm state */}
-        {showSendMotivationForm ? (
+        {/* Render components based on state */}
+        {showAddVisitForm && <CreateVitals />}
+        {showSendMotivationForm && (
           <ApolloProvider client={nurseClient}>
             <SendMotivationalTips />
           </ApolloProvider>
-        ) : null} {/* Conditionally render SendMotivationalTips component based on showSendMotivationForm state */}
-        {!showAddVisitForm && !showSendMotivationForm ? <ListVisits /> : null} {/* Conditionally render ListVisits component */}
+        )}
+        {showListVisits && <ListVisits />}
+        {showListEmergencies && (
+          <ApolloProvider client={patientClient}>
+            <ListEmergencies />
+          </ApolloProvider>
+        )}
       </ApolloProvider>
     </div>
   );
