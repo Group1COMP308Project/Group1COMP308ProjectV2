@@ -9,11 +9,11 @@ const symptomsChecklistSchema = new mongoose.Schema({
   symptoms: {
     type: [String], // Array of symptoms
     required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
+  }
+  // createdAt: {
+  //   type: Date,
+  //   default: Date.now,
+  // },
 });
 
 // Create a Mongoose model based on the schema
