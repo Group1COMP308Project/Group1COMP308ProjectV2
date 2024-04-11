@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+
 import { useQuery, gql } from '@apollo/client';
 
 const ALL_MOTIVATION_TIPS_QUERY = gql`
