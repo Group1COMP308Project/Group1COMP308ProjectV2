@@ -11,9 +11,9 @@ const emergencyResolvers = require('./Resolvers/EmergencyResolver');  // Import 
 const emergencyTypeDefs = require('./schema/emergencyTypeDefs');  // Import type definitions for patient schema
 const Emergency = require('./models/Emergency');  // Import type definitions for patient schema
 
-const symptomsResolvers = require('./Resolvers/SymptomsChecklistResolver');  // Import resolvers for patient schema
-const symptomsTypeDefs = require('./schema/symptomChecklistDefs');  // Import type definitions for patient schema
-const Symptoms = require('./models/SymptomsChecklist');  // Import type definitions for patient schema
+const symptomsResolvers = require('./Resolvers/SymptomResolver');  // Import resolvers for patient schema
+const symptomsTypeDefs = require('./schema/symptomTypeDefs');  // Import type definitions for patient schema
+const Symptoms = require('./models/Symptom');  // Import type definitions for patient schema
 
 const vitalsResolvers = require('./Resolvers/DailyVitalsResolver');  // Import resolvers for patient schema
 const vitalsTypeDefs = require('./schema/dailyVitalsTypeDefs');  // Import type definitions for patient schema

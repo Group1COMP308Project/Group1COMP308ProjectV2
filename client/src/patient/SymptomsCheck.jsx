@@ -1,11 +1,15 @@
-import React from 'react';
+
+
+
+import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
 
-const CREATE_SYMPTOMS_CHECKLIST = gql`
-  mutation CreateSymptomsChecklist($input: SymptomsChecklistInput!) {
-    createSymptomsChecklist(input: $input) {
+const ADD_SYMPTOM = gql`
+  mutation AddSymptom($input: SymptomInput!) {
+    addSymptom(input: $input) {
       id
       patient {
+        id
         email
       }
       symptoms
@@ -14,56 +18,97 @@ const CREATE_SYMPTOMS_CHECKLIST = gql`
   }
 `;
 
-const SymptomsCheck = ({ patientId }) => {
-  const [createSymptomsChecklist] = useMutation(CREATE_SYMPTOMS_CHECKLIST);
+const SymptomsCheck = () => {
+  const [patientId, setPatientId] = useState('');
+  const [addSymptom] = useMutation(ADD_SYMPTOM);
+  const [selectedSymptoms, setSelectedSymptoms] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleCheckboxChange = async (e) => {
-    const symptom = e.target.value;
+ const handleCheckboxChange = (e) => {
+  const symptom = e.target.value;
+  const isChecked = e.target.checked;
+
+  setSelectedSymptoms(prevSelectedSymptoms => {
+    if (isChecked) {
+      // Add the symptom to the array if checked
+      return [...prevSelectedSymptoms, symptom];
+    } else {
+      // Remove the symptom from the array if unchecked
+      return prevSelectedSymptoms.filter(item => item !== symptom);
+    }
+  });
+};
+
+
+
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const { data } = await createSymptomsChecklist({
+      if (!patientId) {
+        setErrorMessage('Please provide a valid Patient ID.');
+        return;
+      }
+  
+      if (selectedSymptoms.length === 0) {
+        setErrorMessage('Please select at least one symptom.');
+        return;
+      }
+  
+      await addSymptom({
         variables: {
           input: {
             patientId,
-            symptoms: [symptom],
+            symptoms: selectedSymptoms,
           },
         },
       });
-      console.log('Symptoms checklist created:', data.createSymptomsChecklist);
+      
+      setErrorMessage('Symptoms added successfully');
     } catch (error) {
-      console.error('Error creating symptoms checklist:', error);
+      console.error('Error adding symptoms:', error);
+      setErrorMessage('Failed to add symptoms. Please try again later.');
     }
   };
 
   return (
     <div>
       <h2>Symptoms Checklist</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <label>
-          Select symptoms (check all that apply):
-          <br />
+          Patient ID:
+          <input 
+            type="text" 
+            value={patientId} 
+            onChange={(e) => setPatientId(e.target.value)} 
+            placeholder="Enter Patient ID" 
+          />
+        </label>
+        <br />
           <input type="checkbox" value="Fever" onChange={handleCheckboxChange} /> Fever
           <br />
           <input type="checkbox" value="Cough" onChange={handleCheckboxChange} /> Cough
           <br />
-          <input type="checkbox" value="Shortness of Breath" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="ShortnessOfBreath" onChange={handleCheckboxChange} /> Shortness of breath
           <br />
-          <input type="checkbox" value="Fatigue" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="Fatigue" onChange={handleCheckboxChange} /> Fatigue
           <br />
-          <input type="checkbox" value="Muscle or Body Aches" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="MuscleOrBodyAches" onChange={handleCheckboxChange} /> Muscle or body aches
           <br />
-          <input type="checkbox" value="Loss of Taste or Smell" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="LossOfTasteOrSmell" onChange={handleCheckboxChange} /> Loss of taste or smell
           <br />
-          <input type="checkbox" value="Sore Throat" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="SoreThroat" onChange={handleCheckboxChange} /> Sore throat
           <br />
-          <input type="checkbox" value="Congestion or Runny Nose" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="CongestionOrRunnyNose" onChange={handleCheckboxChange} /> Congestion or runny nose
           <br />
-          <input type="checkbox" value="Nausea and/or Vomiting" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="NauseaOrVomiting" onChange={handleCheckboxChange} /> Nausea or vomiting
           <br />
-          <input type="checkbox" value="Diarrhea" onChange={handleCheckboxChange} /> Cough
+          <input type="checkbox" value="Diarrhea" onChange={handleCheckboxChange} /> Diarrhea
           <br />
-         
-        </label>
+        <button type="submit">Add Symptoms</button>
       </form>
+      { errorMessage && <p>{errorMessage}</p>}
     </div>
   );
 };
