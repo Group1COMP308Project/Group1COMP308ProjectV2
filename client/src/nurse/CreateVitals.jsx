@@ -31,6 +31,9 @@ const AddVisitForm = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    console.log('Form values:', { email, bodyTemperature, heartRate, bloodPressure, respiratoryRate, visitDate });
+
     try {
       // Execute the addVisit mutation with form data
       await addVisit({ variables: { email, bodyTemperature, heartRate, bloodPressure, respiratoryRate, visitDate } });

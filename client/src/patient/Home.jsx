@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import DailyTips from './DailyTips';
 import Emergency from './Emergency'; // Import the Emergency component
+import SymptomsCheck from './SymptomsCheck';
 
 const nurseClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -16,6 +17,7 @@ const patientClient = new ApolloClient({
 const PatientPage = ({ setToken }) => {
   const [showDailyTips, setShowDailyTips] = useState(false);
   const [showEmergency, setShowEmergency] = useState(false); // State to control the visibility of the Emergency component
+  const [showSymtomsChecklist, setShowSymptomsCheckList] = useState(false);
 
   const handleEmergencyButtonClick = () => {
     setShowEmergency(true); // Show Emergency component when Emergency Alert button is clicked
@@ -24,6 +26,10 @@ const PatientPage = ({ setToken }) => {
   const handleDailyTipsButtonClick = () => {
     setShowDailyTips(true);
   };
+
+  const handleSymptomsCheckListClick = () => {
+    setShowSymptomsCheckList(true); //shows symtoms checklist when checklist button is clicked
+  }
 
   const LogoutButton = ({ setToken }) => {
     const handleLogout = () => {
@@ -44,7 +50,7 @@ const PatientPage = ({ setToken }) => {
         <button onClick={handleDailyTipsButtonClick}>Daily Tips</button>
         <button>Fitness games page</button>
         <button>Enter daily information</button>
-        <button>Checklist of common signs and symptoms</button>
+        <button>{handleSymptomsCheckListClick}Checklist of common signs and symptoms</button>
         <LogoutButton setToken={setToken} />
       </div>
       {showDailyTips && (
@@ -55,6 +61,11 @@ const PatientPage = ({ setToken }) => {
       {showEmergency && (
         <ApolloProvider client={patientClient}>
           <Emergency />
+        </ApolloProvider>
+      )}
+      {showSymtomsChecklist && (
+        <ApolloProvider client={patientClient}>
+          <SymptomsCheck />
         </ApolloProvider>
       )}
     </div>
