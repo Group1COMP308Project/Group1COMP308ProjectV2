@@ -3,6 +3,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import DailyTips from './DailyTips';
 import Emergency from './Emergency'; // Import the Emergency component
 import SymptomsCheck from './SymptomsCheck';
+import DailyVitals from './DailyVitals';
 
 const nurseClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -18,6 +19,7 @@ const PatientPage = ({ setToken }) => {
   const [showDailyTips, setShowDailyTips] = useState(false);
   const [showEmergency, setShowEmergency] = useState(false); // State to control the visibility of the Emergency component
   const [showSymtomsChecklist, setShowSymptomsCheckList] = useState(false);
+  const [showDailyVitals, setShowDailyVitals] = useState(false);
 
   const handleEmergencyButtonClick = () => {
     setShowEmergency(true); // Show Emergency component when Emergency Alert button is clicked
@@ -29,6 +31,10 @@ const PatientPage = ({ setToken }) => {
 
   const handleSymptomsCheckListClick = () => {
     setShowSymptomsCheckList(true); //shows symtoms checklist when checklist button is clicked
+  }
+
+  const handleDailyVitalsButtonClick = () => {
+    setShowDailyVitals(true); 
   }
 
   const LogoutButton = ({ setToken }) => {
@@ -49,7 +55,7 @@ const PatientPage = ({ setToken }) => {
         <button onClick={handleEmergencyButtonClick}>Create emergency alert</button>
         <button onClick={handleDailyTipsButtonClick}>Daily Tips</button>
         <button>Fitness games page</button>
-        <button>Enter daily information</button>
+        <button onClick={handleDailyVitalsButtonClick}>Enter daily information</button>
         <button>{handleSymptomsCheckListClick}Checklist of common signs and symptoms</button>
         <LogoutButton setToken={setToken} />
       </div>
@@ -58,16 +64,14 @@ const PatientPage = ({ setToken }) => {
           <DailyTips />
         </ApolloProvider>
       )}
-      {showEmergency && (
+      {showEmergency && <Emergency /> }
+      {showSymtomsChecklist && <SymptomsCheck />}
+      {showDailyVitals && (
         <ApolloProvider client={patientClient}>
-          <Emergency />
+          <DailyVitals />
         </ApolloProvider>
       )}
-      {showSymtomsChecklist && (
-        <ApolloProvider client={patientClient}>
-          <SymptomsCheck />
-        </ApolloProvider>
-      )}
+      
     </div>
   );
 };
