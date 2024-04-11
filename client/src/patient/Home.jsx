@@ -3,12 +3,6 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import DailyTips from './DailyTips';
 import Emergency from './Emergency'; // Import the Emergency component
 
-<<<<<<< HEAD
-//import fitness page
-
-// Create an Apollo Client instance for the nurse service
-=======
->>>>>>> 096096c659d65ad3a2701ac2261b868f53af6aaa
 const nurseClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache()
