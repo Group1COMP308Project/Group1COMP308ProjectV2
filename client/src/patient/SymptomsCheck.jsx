@@ -1,34 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useMutation, gql } from '@apollo/client';
 
 const CREATE_SYMPTOMS_CHECKLIST = gql`
   mutation CreateSymptomsChecklist($input: SymptomsChecklistInput!) {
     createSymptomsChecklist(input: $input) {
       id
-      patientEmail
+      patient {
+        email
+      }
       symptoms
+      createdAt
     }
   }
 `;
 
-const SymptomsChecklistForm = ({ patientEmail }) => {
-    const [symptoms, setSymptoms] = useState('');
-    const [createSymptomsChecklist] = useMutation(CREATE_SYMPTOMS_CHECKLIST);
+const SymptomsCheck = ({ patientId }) => {
+  const [createSymptomsChecklist] = useMutation(CREATE_SYMPTOMS_CHECKLIST);
 
-    const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleCheckboxChange = async (e) => {
+    const symptom = e.target.value;
     try {
       const { data } = await createSymptomsChecklist({
         variables: {
           input: {
-            patientEmail,
-            symptoms,
+            patientId,
+            symptoms: [symptom],
           },
         },
       });
       console.log('Symptoms checklist created:', data.createSymptomsChecklist);
-      //resetting form fields after successful submission
-      setSymptoms('');
     } catch (error) {
       console.error('Error creating symptoms checklist:', error);
     }
@@ -37,15 +37,35 @@ const SymptomsChecklistForm = ({ patientEmail }) => {
   return (
     <div>
       <h2>Symptoms Checklist</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Symptoms:</label>
-          <textarea value={symptoms} onChange={(e) => setSymptoms(e.target.value)} required />
-        </div>
-        <button type="submit">Submit</button>
+      <form>
+        <label>
+          Select symptoms (check all that apply):
+          <br />
+          <input type="checkbox" value="Fever" onChange={handleCheckboxChange} /> Fever
+          <br />
+          <input type="checkbox" value="Cough" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Shortness of Breath" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Fatigue" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Muscle or Body Aches" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Loss of Taste or Smell" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Sore Throat" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Congestion or Runny Nose" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Nausea and/or Vomiting" onChange={handleCheckboxChange} /> Cough
+          <br />
+          <input type="checkbox" value="Diarrhea" onChange={handleCheckboxChange} /> Cough
+          <br />
+         
+        </label>
       </form>
     </div>
   );
 };
 
-export default SymptomsChecklistForm;
+export default SymptomsCheck;
