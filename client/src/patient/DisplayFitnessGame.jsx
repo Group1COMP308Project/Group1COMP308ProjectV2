@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useQuery, gql } from '@apollo/client';
 
 
@@ -16,7 +16,7 @@ const GET_ACTIVITIES = gql`
 `;
 
 const getActivity = () => {
-    const { loading, error, data, refetch } = useQuery(GET_ACTIVITIES);
+    const { loading,refetch } = useQuery(GET_ACTIVITIES);
     const fetchGames = ()=> {
         refetch();
     }
@@ -38,6 +38,8 @@ const getActivity = () => {
                 <div>{activity.id}</div>
                 <div>Activity</div>
                 <div>{activity.firstname}</div>
+                <>Activity</>
+                <div>{activity.activity}</div>
             </div>
         ))}
     </div>
