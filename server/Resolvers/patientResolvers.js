@@ -33,6 +33,15 @@ const resolvers = {
         throw new Error('Failed to fetch visits');
       }
     },
+    allPatients: async () => {
+      try {
+        // Fetch all patients from the database
+        const patients = await Patient.find();
+        return patients;
+      } catch (error) {
+        throw new Error('Failed to fetch patients');
+      }
+    },
   },
   Mutation: {
     // Resolver for 'signup' mutation to register a new patient

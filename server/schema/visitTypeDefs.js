@@ -35,7 +35,7 @@ const visitTypeDefs = gql`
 
   type Query {
     me: Patient # Sample query to fetch patient details
-    allVisits: [VisitDisplay!]!
+    allVisits: [Visit!]!
   }
 
   type Mutation {

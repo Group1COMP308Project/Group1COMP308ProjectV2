@@ -11,6 +11,13 @@ const emergencyResolvers = require('./Resolvers/EmergencyResolver');  // Import 
 const emergencyTypeDefs = require('./schema/emergencyTypeDefs');  // Import type definitions for patient schema
 const Emergency = require('./models/Emergency');  // Import type definitions for patient schema
 
+const symptomsResolvers = require('./Resolvers/SymptomsChecklistResolver');  // Import resolvers for patient schema
+const symptomsTypeDefs = require('./schema/symptomChecklistDefs');  // Import type definitions for patient schema
+const Symptoms = require('./models/SymptomsChecklist');  // Import type definitions for patient schema
+
+const vitalsResolvers = require('./Resolvers/DailyVitalsResolver');  // Import resolvers for patient schema
+const vitalsTypeDefs = require('./schema/dailyVitalsTypeDefs');  // Import type definitions for patient schema
+const Vitals = require('./models/DailyVitals');  // Import type definitions for patient schema
 
 const Visit = require('./models/Visit');  // Import type definitions for patient schema
 
@@ -24,11 +31,11 @@ const PORT = process.env.PORT || 4001;
 async function startApolloServer() {
   // Create ApolloServer instance with type definitions, resolvers, and context
   const server = new ApolloServer({
-    typeDefs: [patientTypeDefs, emergencyTypeDefs],
-    resolvers: [patientResolvers, emergencyResolvers],
+    typeDefs: [patientTypeDefs, emergencyTypeDefs,symptomsTypeDefs, vitalsTypeDefs],
+    resolvers: [patientResolvers, emergencyResolvers, symptomsResolvers, vitalsResolvers],
     context: ({ req }) => ({
       req,
-      Patient,Visit,Emergency  
+      Patient,Visit,Emergency, Symptoms, Vitals 
     }),  
   });
 
@@ -45,7 +52,7 @@ async function startApolloServer() {
 }
 
 // Connect to MongoDB database
-mongoose.connect('mongodb://localhost/patientData', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/patientData', {})
   .then(() => {
     // Log successful MongoDB connection
     console.log('MongoDB connected');

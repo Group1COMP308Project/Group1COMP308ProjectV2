@@ -52,7 +52,6 @@ const Emergency = () => {
   return (
     <div className="emergency-container">
       <h2>Add New Emergency</h2>
-      {errorMessage && <p className={errorMessage.startsWith('Error') ? 'error-message' : 'success-message'}>{errorMessage}</p>}
       <form className="emergency-form" onSubmit={handleSubmit}>
         <div className="form-row">
           <label>Confirm Email:</label>
@@ -78,6 +77,7 @@ const Emergency = () => {
           <input type="datetime-local" value={alertTime} onChange={(e) => setAlertTime(e.target.value)} required />
         </div>
         <button type="submit">Add Emergency</button>
+        {errorMessage && <p className={errorMessage.startsWith('Error') ? 'error-message' : 'success-message'}>{errorMessage}</p>}
       </form>
     </div>
   );

@@ -39,7 +39,7 @@ async function startApolloServer() {
 }
 
 // Connect to MongoDB database
-mongoose.connect('mongodb://localhost/patientData', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/patientData', { })
   .then(() => {
     // Log successful MongoDB connection
     console.log('MongoDB connected');

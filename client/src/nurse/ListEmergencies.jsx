@@ -9,7 +9,9 @@ const ALL_EMERGENCIES_QUERY = gql`
       type
       message
       alertTime
-      patient
+      patient{
+        email
+      }
     }
   }
 `;
@@ -64,8 +66,8 @@ const ListEmergencies = () => {
               <div>{formatTimestampToDate(emergency.alertTime)}</div>
             </div>
             <div>
-              <div><strong>Patient:</strong></div>
-              <div>{emergency.patient}</div>
+              <div><strong>Patient Email:</strong></div>
+              <div>{emergency.patient.email}</div>
             </div>
             <div>
               <div><strong>Check if handled</strong></div>

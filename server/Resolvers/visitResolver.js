@@ -6,7 +6,7 @@ const visitResolver = {
     allVisits: async () => {
       try {
         // Fetch all visits from the database
-        const visits = await Visit.find();
+        const visits = await Visit.find().populate('patient');
         return visits;
       } catch (error) {
         throw new Error('Failed to fetch visits');

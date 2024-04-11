@@ -5,8 +5,8 @@ const emergencyResolver = {
   Query: {
     allEmergencies: async () => {
       try {
-        // Fetch all emergencies from the database
-        const emergencies = await Emergency.find();
+        // Fetch all emergencies from the database and populate the 'patient' field
+        const emergencies = await Emergency.find().populate('patient');
    
         return emergencies;
       } catch (error) {

@@ -6,10 +6,11 @@ import CreateVitals from './CreateVitals';
 import ListVisits from './ListVisits'; // Import the ListVisits component
 import SendMotivationalTips from './SendMotivationalTips'; // Import the SendMotivationalTips component
 import ListEmergencies from './ListEmergencies'; // Import the ListEmergencies component
+import PatientSearch from './PatientSearch'
 
-// Create an Apollo Client instance for the patient service
+// Create Apollo Client instances for each service
 const visitClient = new ApolloClient({
-  uri: 'http://localhost:4002/graphql', // Patient service URL
+  uri: 'http://localhost:4002/graphql', // Visit service URL
   cache: new InMemoryCache()
 });
 
@@ -28,12 +29,14 @@ const NursePage = ({ setToken }) => {
   const [showSendMotivationForm, setShowSendMotivationForm] = useState(false);
   const [showListVisits, setShowListVisits] = useState(false);
   const [showListEmergencies, setShowListEmergencies] = useState(false);
+  const [showPatientSearch, setShowPatientSearch] = useState(false);
 
   const AddVisitButton = () => {
     setShowAddVisitForm(true);
     setShowSendMotivationForm(false);
     setShowListVisits(false);
     setShowListEmergencies(false);
+    setShowPatientSearch(false);
   };
 
   const ListVisitButton = () => {
@@ -41,6 +44,7 @@ const NursePage = ({ setToken }) => {
     setShowSendMotivationForm(false);
     setShowListVisits(true);
     setShowListEmergencies(false);
+    setShowPatientSearch(false);
   };
 
   const SendMotivationButton = () => {
@@ -48,6 +52,7 @@ const NursePage = ({ setToken }) => {
     setShowSendMotivationForm(true);
     setShowListVisits(false);
     setShowListEmergencies(false);
+    setShowPatientSearch(false);
   };
 
   const EmergencyButton = () => {
@@ -55,6 +60,15 @@ const NursePage = ({ setToken }) => {
     setShowSendMotivationForm(false);
     setShowListVisits(false);
     setShowListEmergencies(true);
+    setShowPatientSearch(false);
+  };
+
+  const PatientSearchButton = () => {
+    setShowAddVisitForm(false);
+    setShowSendMotivationForm(false);
+    setShowListVisits(false);
+    setShowListEmergencies(false);
+    setShowPatientSearch(true);
   };
 
   const handleButton4Click = () => {
@@ -62,35 +76,62 @@ const NursePage = ({ setToken }) => {
     setShowSendMotivationForm(false);
     setShowListVisits(false);
     setShowListEmergencies(false);
+    setShowPatientSearch(false);
   };
 
   return (
     <div className="nurse-page">
-      <ApolloProvider client={visitClient}>
-        <h1>Nurse Page</h1>
-        <p>Welcome to the Nurse Page. Here you can access patient-specific features.</p>
-        <div className="button-container">
-          <button onClick={AddVisitButton}>Add Visit</button>
-          <button onClick={ListVisitButton}>Previous Clinics Info</button>
-          <button onClick={SendMotivationButton}>Send Daily Motivation</button>
-          <button onClick={EmergencyButton}>List Emergencies</button>
-          <button onClick={handleButton4Click}>Intelligence</button>
-          <LogoutButton setToken={setToken} />
-        </div>
-        {/* Render components based on state */}
-        {showAddVisitForm && <CreateVitals />}
-        {showSendMotivationForm && (
-          <ApolloProvider client={nurseClient}>
-            <SendMotivationalTips />
+      <h1>Nurse Page</h1>
+      <p>Welcome to the Nurse Page. Here you can access patient-specific features.</p>
+      <div className="button-container">
+        <button onClick={AddVisitButton}>Add Visit</button>
+        <button onClick={ListVisitButton}>Previous Clinics Info</button>
+        <button onClick={SendMotivationButton}>Send Daily Motivation</button>
+        <button onClick={EmergencyButton}>List Emergencies</button>
+        <button onClick={PatientSearchButton}>Patient Search</button>
+        <LogoutButton setToken={setToken} />
+      </div>
+      {/* Render components based on state */}
+      {showAddVisitForm && (
+        <div>
+          
+          <ApolloProvider client={visitClient}>
+            <CreateVitals />
           </ApolloProvider>
-        )}
-        {showListVisits && <ListVisits />}
-        {showListEmergencies && (
+          
+        </div>
+      )}
+      {showSendMotivationForm && (
+        <ApolloProvider client={nurseClient}>
+          <SendMotivationalTips />
+        </ApolloProvider>
+      )}
+      {showListVisits && (
+        <div>
+          <ApolloProvider client={visitClient}>
+            <ListVisits />
+          </ApolloProvider>
+          
+        </div>
+      )}
+      {showListEmergencies && (
+        <div>
+         
           <ApolloProvider client={patientClient}>
             <ListEmergencies />
           </ApolloProvider>
-        )}
-      </ApolloProvider>
+        </div>
+      )}
+      {showPatientSearch && (
+        <div>
+     
+          <ApolloProvider client={patientClient}>
+            <PatientSearch />
+          </ApolloProvider>
+
+       
+        </div>
+      )}
     </div>
   );
 };

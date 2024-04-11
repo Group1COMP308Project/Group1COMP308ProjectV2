@@ -1,32 +1,28 @@
-import React, { useState } from 'react';
+
 import { useQuery, gql } from '@apollo/client';
 import './styles/list.css';
 
 const ALL_VISITS_QUERY = gql`
-  query {
+  query AllVisits {
     allVisits {
       id
       bodyTemperature
       heartRate
       bloodPressure
       respiratoryRate
-      patient 
       visitDate
+      patient {
+        email
+      }
     }
   }
 `;
 
 const AllVisits = () => {
-  const [refresh, setRefresh] = useState(false);
-
-  const { loading, error, data, refetch } = useQuery(ALL_VISITS_QUERY, {
-    skip: refresh // Skip query on initial load, and only fetch data on refresh
-  });
+  const { loading, error, data, refetch } = useQuery(ALL_VISITS_QUERY);
 
   const handleRefresh = () => {
-    setRefresh(true);
     refetch(); // Refetch data
-    setRefresh(false);
   };
 
   if (loading) return <p>Loading...</p>;
@@ -53,7 +49,7 @@ const AllVisits = () => {
               <div><strong>Heart Rate:</strong> {visit.heartRate}</div>
               <div><strong>Blood Pressure:</strong> {visit.bloodPressure}</div>
               <div><strong>Respiratory Rate:</strong> {visit.respiratoryRate}</div>
-              <div><strong>Patient ID:</strong> {visit.patient}</div>
+              <div><strong>Patient Email:</strong> {visit.patient.email}</div>
             </div>
           </li>
         ))}

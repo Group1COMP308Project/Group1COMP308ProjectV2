@@ -5,7 +5,9 @@ const motivationTipResolver = {
   Query: {
     allMotivationTips: async () => {
       try {
+        // Fetch all motivation tips from the database and populate the 'nurse' field
         const motivationTips = await MotivationTip.find().populate('nurse');
+   
         return motivationTips;
       } catch (error) {
         throw new Error('Failed to fetch motivation tips');
@@ -13,22 +15,25 @@ const motivationTipResolver = {
     },
   },
   Mutation: {
-    addMotivationTip: async (_, { content, nurseEmail }) => {
+    addMotivationTip: async (_, { email, content }) => {
       try {
         // Find nurse by email
-        const nurse = await Nurse.findOne({ email: nurseEmail });
+        const nurse = await Nurse.findOne({ email });
         if (!nurse) {
           throw new Error('Nurse not found');
         }
 
         // Create a new motivation tip
         const newMotivationTip = new MotivationTip({
+          email,
           content,
           nurse: nurse._id,
         });
 
         // Save the new motivation tip to the database
         await newMotivationTip.save();
+
+        newMotivationTip.nurse = nurse; 
 
         return newMotivationTip;
       } catch (error) {

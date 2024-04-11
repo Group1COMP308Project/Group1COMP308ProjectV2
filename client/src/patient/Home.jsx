@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import DailyTips from './DailyTips';
-import Emergency from './Emergency'; // Import the Emergency component
+import Emergency from './Emergency';
 import SymptomsCheck from './SymptomsCheck';
 import DailyVitals from './DailyVitals';
 
@@ -17,25 +17,37 @@ const patientClient = new ApolloClient({
 
 const PatientPage = ({ setToken }) => {
   const [showDailyTips, setShowDailyTips] = useState(false);
-  const [showEmergency, setShowEmergency] = useState(false); // State to control the visibility of the Emergency component
-  const [showSymtomsChecklist, setShowSymptomsCheckList] = useState(false);
+  const [showEmergency, setShowEmergency] = useState(false);
+  const [showSymptomsChecklist, setShowSymptomsChecklist] = useState(false);
   const [showDailyVitals, setShowDailyVitals] = useState(false);
 
   const handleEmergencyButtonClick = () => {
-    setShowEmergency(true); // Show Emergency component when Emergency Alert button is clicked
+    setShowEmergency(true);
+    setShowDailyTips(false);
+    setShowSymptomsChecklist(false);
+    setShowDailyVitals(false);
   };
 
   const handleDailyTipsButtonClick = () => {
     setShowDailyTips(true);
+    setShowEmergency(false);
+    setShowSymptomsChecklist(false);
+    setShowDailyVitals(false);
   };
 
   const handleSymptomsCheckListClick = () => {
-    setShowSymptomsCheckList(true); //shows symtoms checklist when checklist button is clicked
-  }
+    setShowSymptomsChecklist(true);
+    setShowEmergency(false);
+    setShowDailyTips(false);
+    setShowDailyVitals(false);
+  };
 
   const handleDailyVitalsButtonClick = () => {
-    setShowDailyVitals(true); 
-  }
+    setShowDailyVitals(true);
+    setShowEmergency(false);
+    setShowDailyTips(false);
+    setShowSymptomsChecklist(false);
+  };
 
   const LogoutButton = ({ setToken }) => {
     const handleLogout = () => {
@@ -56,7 +68,7 @@ const PatientPage = ({ setToken }) => {
         <button onClick={handleDailyTipsButtonClick}>Daily Tips</button>
         <button>Fitness games page</button>
         <button onClick={handleDailyVitalsButtonClick}>Enter daily information</button>
-        <button>{handleSymptomsCheckListClick}Checklist of common signs and symptoms</button>
+        <button onClick={handleSymptomsCheckListClick}>Checklist of common signs and symptoms</button>
         <LogoutButton setToken={setToken} />
       </div>
       {showDailyTips && (
@@ -64,14 +76,13 @@ const PatientPage = ({ setToken }) => {
           <DailyTips />
         </ApolloProvider>
       )}
-      {showEmergency && <Emergency /> }
-      {showSymtomsChecklist && <SymptomsCheck />}
+      {showEmergency && <Emergency />}
+      {showSymptomsChecklist && <SymptomsCheck />}
       {showDailyVitals && (
         <ApolloProvider client={patientClient}>
           <DailyVitals />
         </ApolloProvider>
       )}
-      
     </div>
   );
 };

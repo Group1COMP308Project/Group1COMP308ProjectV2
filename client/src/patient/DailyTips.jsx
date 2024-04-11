@@ -26,7 +26,7 @@ const DailyTips = () => {
 
   return (
     <div>
-      <h2>Daily Motivational Tip</h2>
+      <h2>Latest Motivational Tip</h2>
       <p>{lastTip.content}</p>
       <button onClick={fetchNewTip}>Refresh</button>
     </div>

@@ -16,14 +16,6 @@ const emergencyTypeDefs = gql`
     patient: Patient!
   }
 
-  type EmergencyDisplay {
-    id: ID!
-    type: String!
-    message: String!
-    alertTime: String!
-    patient: String!
-  }
-
   type AuthPayload {
     token: String!
     patient: Patient!
@@ -31,7 +23,7 @@ const emergencyTypeDefs = gql`
 
   type Query {
     me: Patient # Sample query to fetch patient details
-    allEmergencies: [EmergencyDisplay!]!
+    allEmergencies: [Emergency!]!
   }
 
   type Mutation {

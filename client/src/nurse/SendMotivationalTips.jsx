@@ -3,10 +3,14 @@ import { useMutation, gql } from '@apollo/client';
 
 // Define the mutation for adding a motivational tip
 const ADD_MOTIVATIONAL_TIP = gql`
-  mutation AddMotivationTip($content: String!, $nurseEmail: String!) {
-    addMotivationTip(content: $content, nurseEmail: $nurseEmail) {
+  mutation AddMotivationTip($content: String!, $email: String!) {
+    addMotivationTip(content: $content, email: $email) {
       id
       content
+      nurse {
+        id
+        email
+      }
     }
   }
 `;
@@ -23,7 +27,7 @@ const SendMotivationalTips = () => {
       await addMotivationTip({
         variables: {
           content,
-          nurseEmail: nurseEmailAddress,
+          email: nurseEmailAddress,
         },
       });
       setContent('');
