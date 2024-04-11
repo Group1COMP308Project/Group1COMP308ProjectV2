@@ -3,6 +3,8 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'; //
 import AddVisitForm from './CreateFitnessActivity'; // Import the component to add a visit
 import DailyTips from './DailyTips'; // Import the DailyTips component
 
+//import fitness page
+
 // Create an Apollo Client instance for the nurse service
 const nurseClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql', // Nurse service URL

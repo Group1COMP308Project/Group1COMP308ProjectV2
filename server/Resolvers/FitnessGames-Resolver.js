@@ -6,8 +6,8 @@ const resolvers = {
     Query:{
         _x: async(x,r,{req})=> {
 
-            const games = await FitnessSchema.findById(req.userId);
-            return games;
+            const game = await FitnessSchema.findById(req.userId);
+            return game;
 
         },
 
