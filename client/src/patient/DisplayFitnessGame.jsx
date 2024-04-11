@@ -23,37 +23,28 @@ const getActivity = () => {
 
 
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <p>Loading...</p>
 
     return (
 
         <div className="get-activities">
-            <h1>List of Activities</h1>
-
-            <button onClick={fetchGames}>Refetch activities</button>  
-            {games.map((activity)=>(
-
-                <div key={activity.id} className="activity">
-                    <div>Id</div>
-                    <div>{activity.id}</div>
-                    <div>Activity</div>
-                    <div>{activity.firstname}
-                    </div>
-                    
-          )}
-
+        <h1>List of Activities</h1>
         
+        <button onClick={fetchGames}>Refetch activities</button>
+        
+        {games.map((activity) => (
+            <div key={activity.id} className="activity">
+                <div>Id</div>
+                <div>{activity.id}</div>
+                <div>Activity</div>
+                <div>{activity.firstname}</div>
+            </div>
+        ))}
+    </div>
+    
 
-   
-        </div>
 
-
-
-
-    ),
-
-
-
+    );
 
 
 
