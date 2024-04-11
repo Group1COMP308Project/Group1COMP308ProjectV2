@@ -6,7 +6,6 @@ const visitTypeDefs = gql`
     firstName: String!
     lastName: String!
     email: String!
-    password: String!
   }
 
   type Visit {

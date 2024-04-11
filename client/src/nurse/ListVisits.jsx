@@ -32,6 +32,9 @@ const AllVisits = () => {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
+  // Sort visits by most recent visitDate
+  const sortedVisits = [...data.allVisits].sort((a, b) => new Date(b.visitDate) - new Date(a.visitDate));
+
   const formatTimestampToDate = (timestamp) => {
     const date = new Date(parseInt(timestamp));
     return date.toLocaleString();
@@ -42,7 +45,7 @@ const AllVisits = () => {
       <h1>All Visits</h1>
       <button onClick={handleRefresh}>Refresh</button>
       <ul className="visit-list">
-        {data.allVisits.map(visit => (
+        {sortedVisits.map(visit => (
           <li key={visit.id} className="visit-item">
             <div className="visit-details">
               <div><strong>Visit Date: </strong> {formatTimestampToDate(visit.visitDate)}</div>

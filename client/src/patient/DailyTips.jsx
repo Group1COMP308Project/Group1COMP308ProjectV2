@@ -11,26 +11,24 @@ const ALL_MOTIVATION_TIPS_QUERY = gql`
 `;
 
 const DailyTips = () => {
-  const { loading, error, data } = useQuery(ALL_MOTIVATION_TIPS_QUERY);
-  const [currentTipIndex, setCurrentTipIndex] = useState(0);
+  const { loading, error, data, refetch } = useQuery(ALL_MOTIVATION_TIPS_QUERY);
 
   const fetchNewTip = () => {
-    setCurrentTipIndex(currentTipIndex + 1); // Increment index to show the next tip
+    refetch(); // Refresh the motivational tip data
   };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 
-  // Get the current tip based on the index
-  const currentTip = data.allMotivationTips[currentTipIndex];
+  // Get the last tip
+  const lastTipIndex = data.allMotivationTips.length - 1;
+  const lastTip = data.allMotivationTips[lastTipIndex];
 
   return (
     <div>
       <h2>Daily Motivational Tip</h2>
-      <p>{currentTip.content}</p>
-      {currentTipIndex < data.allMotivationTips.length - 1 && (
-        <button onClick={fetchNewTip}>Refresh</button>
-      )}
+      <p>{lastTip.content}</p>
+      <button onClick={fetchNewTip}>Refresh</button>
     </div>
   );
 };
