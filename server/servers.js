@@ -4,7 +4,8 @@ const { exec } = require('child_process');
 const servers = [
   'nurse-microservice.js',
   'patient-microservice.js',
-  'visit-microservice.js'
+  'visit-microservice.js',
+  
 ];
 
 // Function to start servers
