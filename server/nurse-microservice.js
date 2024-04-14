@@ -10,9 +10,7 @@ const Nurse = require('./models/Nurse')
 const motivationResolvers = require('./Resolvers/motivationTipResolver');  // Import resolvers
 const motivationTypeDefs = require('./schema/motivationTypeDefs');  // Import type definitions
 const Motivation = require('./models/MotivationTip');  // Import type definitions
-
-
-
+const indexController = require('./controllers/index.server.controller');
 
 
 // Initialize Express app
@@ -20,6 +18,10 @@ const app = express();
 
 // Define port to listen on, using environment variable if available, else fallback to 4000
 const PORT = process.env.PORT || 4000;
+
+// Define route for triggering model training and prediction
+//app.get('/train-and-predict', indexController.trainAndPredict);
+
 
 // Asynchronous function to start Apollo Server
 async function startApolloServer() {
