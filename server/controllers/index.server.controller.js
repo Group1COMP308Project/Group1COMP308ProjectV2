@@ -1,14 +1,14 @@
 //
 exports.trainAndPredict = function (req, res) {
     const tf = require('@tensorflow/tfjs');
-    require('@tensorflow/tfjs-node');
+    //require('@tensorflow/tfjs-node');
     
     //load diseases training and testing data
-    const dis = require('../DiseasesOutput.json');
-    const disTesting = require('../DiseasesOutput-test.json');
+    const dis = require('../../DiseasesOutput.json');
+    const disTesting = require('../../DiseasesOutput-test.json');
     console.log(disTesting)
     //
-        //
+        
     //tensor of features for training data
     console.log('trainingData')
     const trainingData = tf.tensor2d(dis.map(item => [
@@ -62,10 +62,10 @@ exports.trainAndPredict = function (req, res) {
         item.ICD10,
         item.LOINC
     ]))
-    console.log(testingData.dataSync())
-    testingData.array().then(array => {
-        console.log(array)
-    })
+    // console.log(testingData.dataSync())
+    // testingData.array().then(array => {
+    //     console.log(array)
+    // })
 
     // build neural network using a sequential model
     const model = tf.sequential()
@@ -102,8 +102,7 @@ exports.trainAndPredict = function (req, res) {
 
     console.log(model.summary())
     // train/fit the model for the fixed number of epochs
-    const startTime = Date.now()
-    //
+  
 
     async function run() {
         const startTime = Date.now()
@@ -114,7 +113,8 @@ exports.trainAndPredict = function (req, res) {
                 callbacks: {
                     onEpochEnd: async (epoch, log) => {
                         console.log(`Epoch ${epoch}: loss = ${log.loss}`);
-                        elapsedTime = Date.now() - startTime;
+                        const endTime = Date.now(); // updated variabe name
+                        elapsedTime = endTime - startTime;
                         console.log('elapsed time: ' + elapsedTime)
                     }
                 }
@@ -131,10 +131,15 @@ exports.trainAndPredict = function (req, res) {
             var resultForTest1 = array[0];
             var resultForTest2 = array[1];
             var resultForTest3 = array[2];
-            
+            var dataToSent = {row1: resultForData1,row2: resultForData2, row3: resultForData3}
+            console.log(disTesting);
+            // uncommment this when client is React
+           // res.status(200).send(dataToSent);
+
             res.render('results',
                 {
-                    results: results,
+                    elapsedTime: elapsedTime,
+                    lossValue: lossValue,
                     resultForTest1: resultForTest1,
                     resultForTest2: resultForTest2,
                     resultForTest3: resultForTest3
