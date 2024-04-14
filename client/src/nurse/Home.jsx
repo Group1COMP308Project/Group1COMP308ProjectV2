@@ -7,6 +7,7 @@ import ListVisits from './ListVisits'; // Import the ListVisits component
 import SendMotivationalTips from './SendMotivationalTips'; // Import the SendMotivationalTips component
 import ListEmergencies from './ListEmergencies'; // Import the ListEmergencies component
 import PatientSearch from './PatientSearch'
+import ModelResultsPage from './ModelResultsPage';
 
 // Create Apollo Client instances for each service
 const visitClient = new ApolloClient({
@@ -30,6 +31,7 @@ const NursePage = ({ setToken }) => {
   const [showListVisits, setShowListVisits] = useState(false);
   const [showListEmergencies, setShowListEmergencies] = useState(false);
   const [showPatientSearch, setShowPatientSearch] = useState(false);
+  const [showModelResultsPage, setShowModelResultsPage] = useState(false);
 
   const AddVisitButton = () => {
     setShowAddVisitForm(true);
@@ -37,6 +39,7 @@ const NursePage = ({ setToken }) => {
     setShowListVisits(false);
     setShowListEmergencies(false);
     setShowPatientSearch(false);
+    setShowModelResultsPage(false);
   };
 
   const ListVisitButton = () => {
@@ -45,6 +48,7 @@ const NursePage = ({ setToken }) => {
     setShowListVisits(true);
     setShowListEmergencies(false);
     setShowPatientSearch(false);
+    setShowModelResultsPage(false);
   };
 
   const SendMotivationButton = () => {
@@ -53,6 +57,7 @@ const NursePage = ({ setToken }) => {
     setShowListVisits(false);
     setShowListEmergencies(false);
     setShowPatientSearch(false);
+    setShowModelResultsPage(false);
   };
 
   const EmergencyButton = () => {
@@ -61,6 +66,7 @@ const NursePage = ({ setToken }) => {
     setShowListVisits(false);
     setShowListEmergencies(true);
     setShowPatientSearch(false);
+    setShowModelResultsPage(false);
   };
 
   const PatientSearchButton = () => {
@@ -69,6 +75,16 @@ const NursePage = ({ setToken }) => {
     setShowListVisits(false);
     setShowListEmergencies(false);
     setShowPatientSearch(true);
+    setShowModelResultsPage(false);
+  };
+
+  const ModelResultsButton = () => {
+    setShowAddVisitForm(false);
+    setShowSendMotivationForm(false);
+    setShowListVisits(false);
+    setShowListEmergencies(false);
+    setShowPatientSearch(false);
+    setShowModelResultsPage(true);
   };
 
   const handleButton4Click = () => {
@@ -77,6 +93,7 @@ const NursePage = ({ setToken }) => {
     setShowListVisits(false);
     setShowListEmergencies(false);
     setShowPatientSearch(false);
+    setShowModelResultsPage(false);
   };
 
   return (
@@ -89,6 +106,8 @@ const NursePage = ({ setToken }) => {
         <button onClick={SendMotivationButton}>Send Daily Motivation</button>
         <button onClick={EmergencyButton}>List Emergencies</button>
         <button onClick={PatientSearchButton}>Patient Search</button>
+        <button onClick={ModelResultsButton}>Model Results</button>
+
         <LogoutButton setToken={setToken} />
       </div>
       {/* Render components based on state */}
@@ -130,6 +149,11 @@ const NursePage = ({ setToken }) => {
           </ApolloProvider>
 
        
+          </div>
+      )}
+      {showModelResultsPage && (
+        <div>
+          <ModelResultsPage />
         </div>
       )}
     </div>
