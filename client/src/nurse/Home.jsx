@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'; // Import ApolloClient and related modules
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
-// Import AddVisitForm component
+// Import components
 import CreateVitals from './CreateVitals';
-import ListVisits from './ListVisits'; // Import the ListVisits component
-import SendMotivationalTips from './SendMotivationalTips'; // Import the SendMotivationalTips component
-import ListEmergencies from './ListEmergencies'; // Import the ListEmergencies component
-import PatientSearch from './PatientSearch'
-import ModelResultsPage from './ModelResultsPage';
+import ListVisits from './ListVisits';
+import SendMotivationalTips from './SendMotivationalTips';
+import ListEmergencies from './ListEmergencies';
+import PatientSearch from './PatientSearch';
 
 // Create Apollo Client instances for each service
 const visitClient = new ApolloClient({
-  uri: 'http://localhost:4002/graphql', // Visit service URL
+  uri: 'http://localhost:4002/graphql',
   cache: new InMemoryCache()
 });
 
 const nurseClient = new ApolloClient({
-  uri: 'http://localhost:4000/graphql', // Nurse service URL
+  uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache()
 });
 
 const patientClient = new ApolloClient({
-  uri: 'http://localhost:4001/graphql', // Patient service URL
+  uri: 'http://localhost:4001/graphql',
   cache: new InMemoryCache()
 });
 
@@ -31,94 +30,32 @@ const NursePage = ({ setToken }) => {
   const [showListVisits, setShowListVisits] = useState(false);
   const [showListEmergencies, setShowListEmergencies] = useState(false);
   const [showPatientSearch, setShowPatientSearch] = useState(false);
-  const [showModelResultsPage, setShowModelResultsPage] = useState(false);
 
-  const AddVisitButton = () => {
-    setShowAddVisitForm(true);
-    setShowSendMotivationForm(false);
-    setShowListVisits(false);
-    setShowListEmergencies(false);
-    setShowPatientSearch(false);
-    setShowModelResultsPage(false);
-  };
-
-  const ListVisitButton = () => {
-    setShowAddVisitForm(false);
-    setShowSendMotivationForm(false);
-    setShowListVisits(true);
-    setShowListEmergencies(false);
-    setShowPatientSearch(false);
-    setShowModelResultsPage(false);
-  };
-
-  const SendMotivationButton = () => {
-    setShowAddVisitForm(false);
-    setShowSendMotivationForm(true);
-    setShowListVisits(false);
-    setShowListEmergencies(false);
-    setShowPatientSearch(false);
-    setShowModelResultsPage(false);
-  };
-
-  const EmergencyButton = () => {
-    setShowAddVisitForm(false);
-    setShowSendMotivationForm(false);
-    setShowListVisits(false);
-    setShowListEmergencies(true);
-    setShowPatientSearch(false);
-    setShowModelResultsPage(false);
-  };
-
-  const PatientSearchButton = () => {
-    setShowAddVisitForm(false);
-    setShowSendMotivationForm(false);
-    setShowListVisits(false);
-    setShowListEmergencies(false);
-    setShowPatientSearch(true);
-    setShowModelResultsPage(false);
-  };
-
-  const ModelResultsButton = () => {
-    setShowAddVisitForm(false);
-    setShowSendMotivationForm(false);
-    setShowListVisits(false);
-    setShowListEmergencies(false);
-    setShowPatientSearch(false);
-    setShowModelResultsPage(true);
-  };
-
-  const handleButton4Click = () => {
-    setShowAddVisitForm(false);
-    setShowSendMotivationForm(false);
-    setShowListVisits(false);
-    setShowListEmergencies(false);
-    setShowPatientSearch(false);
-    setShowModelResultsPage(false);
+  const handleButtonClick = (option) => {
+    setShowAddVisitForm(option === 'addVisit');
+    setShowSendMotivationForm(option === 'sendMotivation');
+    setShowListVisits(option === 'listVisits');
+    setShowListEmergencies(option === 'listEmergencies');
+    setShowPatientSearch(option === 'patientSearch');
   };
 
   return (
-    <div className="nurse-page">
-      <h1>Nurse Page</h1>
+    <div className="container mt-5">
+      <h1 className="mb-4">Nurse Page</h1>
       <p>Welcome to the Nurse Page. Here you can access patient-specific features.</p>
-      <div className="button-container">
-        <button onClick={AddVisitButton}>Add Visit</button>
-        <button onClick={ListVisitButton}>Previous Clinics Info</button>
-        <button onClick={SendMotivationButton}>Send Daily Motivation</button>
-        <button onClick={EmergencyButton}>List Emergencies</button>
-        <button onClick={PatientSearchButton}>Patient Search</button>
-        <button onClick={ModelResultsButton}>Model Results</button>
-
+      <div className="d-flex flex-wrap justify-content-center mb-4">
+        <button className="btn btn-primary mr-2 mb-2" onClick={() => handleButtonClick('addVisit')}>Add Visit</button>
+        <button className="btn btn-primary mr-2 mb-2" onClick={() => handleButtonClick('listVisits')}>Previous Clinics Info</button>
+        <button className="btn btn-primary mr-2 mb-2" onClick={() => handleButtonClick('sendMotivation')}>Send Daily Motivation</button>
+        <button className="btn btn-primary mr-2 mb-2" onClick={() => handleButtonClick('listEmergencies')}>List Emergencies</button>
+        <button className="btn btn-primary mb-2" onClick={() => handleButtonClick('patientSearch')}>Patient Search</button>
         <LogoutButton setToken={setToken} />
       </div>
       {/* Render components based on state */}
       {showAddVisitForm && (
-        <div>
-          
-          <ApolloProvider client={visitClient}>
-            <CreateVitals />
-          </ApolloProvider>
-          
-        </div>
+        <ApolloProvider client={visitClient}>
+          <CreateVitals />
+        </ApolloProvider>
       )}
       {showSendMotivationForm && (
         <ApolloProvider client={nurseClient}>
@@ -126,35 +63,19 @@ const NursePage = ({ setToken }) => {
         </ApolloProvider>
       )}
       {showListVisits && (
-        <div>
-          <ApolloProvider client={visitClient}>
-            <ListVisits />
-          </ApolloProvider>
-          
-        </div>
+        <ApolloProvider client={visitClient}>
+          <ListVisits />
+        </ApolloProvider>
       )}
       {showListEmergencies && (
-        <div>
-         
-          <ApolloProvider client={patientClient}>
-            <ListEmergencies />
-          </ApolloProvider>
-        </div>
+        <ApolloProvider client={patientClient}>
+          <ListEmergencies />
+        </ApolloProvider>
       )}
       {showPatientSearch && (
-        <div>
-     
-          <ApolloProvider client={patientClient}>
-            <PatientSearch />
-          </ApolloProvider>
-
-       
-          </div>
-      )}
-      {showModelResultsPage && (
-        <div>
-          <ModelResultsPage />
-        </div>
+        <ApolloProvider client={patientClient}>
+          <PatientSearch />
+        </ApolloProvider>
       )}
     </div>
   );
@@ -166,7 +87,7 @@ const LogoutButton = ({ setToken }) => {
   };
 
   return (
-    <button onClick={handleLogout}>Logout</button>
+    <button className="btn btn-danger ml-2 mb-2" onClick={handleLogout}>Logout</button>
   );
 };
 

@@ -5,6 +5,7 @@ import Emergency from './Emergency';
 import SymptomsCheck from './SymptomsCheck';
 import DailyVitals from './DailyVitals';
 
+// Create Apollo Client instances for each service
 const nurseClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache()
@@ -55,20 +56,20 @@ const PatientPage = ({ setToken }) => {
     };
 
     return (
-      <button onClick={handleLogout}>Logout</button>
+      <button className="btn btn-primary ml-2 mb-2" onClick={handleLogout}>Logout</button>
     );
   };
 
   return (
-    <div className="patient-page">
+    <div className="container mt-5">
       <h1>Patient Page</h1>
       <p>Welcome to the Patient Page. Here you can access patient-specific features.</p>
-      <div className="button-container">
-        <button onClick={handleEmergencyButtonClick}>Create emergency alert</button>
-        <button onClick={handleDailyTipsButtonClick}>Daily Tips</button>
-        <button>Fitness games page</button>
-        <button onClick={handleDailyVitalsButtonClick}>Enter daily information</button>
-        <button onClick={handleSymptomsCheckListClick}>Checklist of common signs and symptoms</button>
+      <div className="d-flex flex-wrap justify-content-center mb-4">
+        <button className="btn btn-primary mr-2 mb-2" onClick={handleEmergencyButtonClick}>Create emergency alert</button>
+        <button className="btn btn-primary mr-2 mb-2" onClick={handleDailyTipsButtonClick}>Daily Tips</button>
+        <button className="btn btn-primary mr-2 mb-2">Fitness games page</button>
+        <button className="btn btn-primary mr-2 mb-2" onClick={handleDailyVitalsButtonClick}>Enter daily information</button>
+        <button className="btn btn-primary mb-2" onClick={handleSymptomsCheckListClick}>Checklist of common signs and symptoms</button>
         <LogoutButton setToken={setToken} />
       </div>
       {showDailyTips && (

@@ -1,128 +1,112 @@
 /* Global styles */
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-  }
-  
-  /* Container styles */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  /* Button styles */
-  .button {
-    border: none;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-  }
-  
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+}
+
+/* Container styles */
+.container {
+  padding: 20px;
+}
+
+/* Button styles */
+.btn {
+  border-radius: 5px;
+}
+
 /* Nurse button */
 .nurse-button {
   background-color: #4CAF50;
   color: #FFFFFF;
-  padding: 10px 20px; /* Add padding for better button size */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Add border radius for rounded corners */
-  cursor: pointer; /* Add cursor pointer */
-  transition: background-color 0.3s ease; /* Add transition effect */
+  transition: background-color 0.3s ease;
 }
 
 /* Hover effect for Nurse button */
 .nurse-button:hover {
-  background-color: #45a049; /* Darken the background color on hover */
+  background-color: #45a049;
 }
 
 /* Patient button */
 .patient-button {
   background-color: #2196F3;
   color: #FFFFFF;
-  padding: 10px 20px; /* Add padding for better button size */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Add border radius for rounded corners */
-  cursor: pointer; /* Add cursor pointer */
-  transition: background-color 0.3s ease; /* Add transition effect */
+  transition: background-color 0.3s ease;
 }
 
 /* Hover effect for Patient button */
 .patient-button:hover {
-  background-color: #1e87da; /* Darken the background color on hover */
+  background-color: #1e87da;
 }
 
-  
-  /* Form styles */
-  .form {
-    background-color: #FFFFFF;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Input styles */
-  .input {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-  }
-  
-  /* Error message styles */
-  .error-message {
-    color: #FF0000;
-    margin-bottom: 10px;
-  }
-  
-  .user-selection {
-    /* Center-align content */
-    text-align: center;
-  }
-  
-  /* User form section */
-  .user-form {
-    /* Center-align content */
-    text-align: center;
-  }
-  
-  /* App component */
-  .App {
-    /* Center-align all content */
-    text-align: center;
-  }
+/* Form styles */
+.form {
+  background-color: #FFFFFF;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
 
-  .visit-list-container {
-    width: 80%;
-    margin: 0 auto;
-  }
-  
-  .visit-list {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .visit-item {
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .visit-details {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  
-  .visit-details div {
-    margin-bottom: 5px;
-  }
+/* Input styles */
+.input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+/* Error message styles */
+.error-message {
+  color: #FF0000;
+  margin-bottom: 10px;
+}
+
+/* User selection section */
+.user-selection {
+  text-align: center;
+}
+
+/* User form section */
+.user-form {
+  text-align: center;
+}
+
+/* App component */
+.App {
+  text-align: center;
+}
+
+/* Visit list container */
+.visit-list-container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Visit list */
+.visit-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+/* Visit item */
+.visit-item {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Visit details */
+.visit-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Visit details div */
+.visit-details div {
+  margin-bottom: 5px;
+}

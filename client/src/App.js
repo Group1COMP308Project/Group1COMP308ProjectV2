@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import './globalStyles.css'; // Import the styles.css file
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Import components
 import NurseSignupForm from './nurse/SignupForm';
@@ -34,33 +35,39 @@ function App() {
 
   // Render JSX for App component
   return (
-    <div className="App">
+    <div className="container">
       {!isLoggedIn && (
-        <div className="user-selection">
-          <h1>Welcome to Our Healthcare Portal</h1>
-          <p>Please select your role:</p>
-          <div className="user-type-buttons">
-            <button className="patient-button" onClick={() => setUserType('nurse')}>I'm a Nurse</button>
-            <button className="nurse-button" onClick={() => setUserType('patient')}>I'm a Patient</button>
+        <div className="row justify-content-center">
+          <div className="col-md-6">
+            <h1 className="text-center">Welcome to Our Healthcare Portal</h1>
+            <p className="text-center">Please select your role:</p>
+            <div className="text-center">
+              <button className="btn btn-success mr-2" onClick={() => setUserType('nurse')}>I'm a Nurse</button>
+              <button className="btn btn-primary" onClick={() => setUserType('patient')}>I'm a Patient</button>
+            </div>
           </div>
         </div>
       )}
 
       {userType === 'nurse' && (
-        <div className="user-form">
-          <ApolloProvider client={nurseClient}>
-            {!token ? <NurseLoginForm setToken={setToken} /> : <NurseLogoutButton setToken={setToken} />}
-            {!token && <NurseSignupForm />}
-          </ApolloProvider>
+        <div className="row justify-content-center">
+          <div className="col-md-6">
+            <ApolloProvider client={nurseClient}>
+              {!token ? <NurseLoginForm setToken={setToken} /> : <NurseLogoutButton setToken={setToken} />}
+              {!token && <NurseSignupForm />}
+            </ApolloProvider>
+          </div>
         </div>
       )}
 
       {userType === 'patient' && (
-        <div className="user-form">
-          <ApolloProvider client={patientClient}>
-            {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
-            {!token && <PatientSignupForm />}
-          </ApolloProvider>
+        <div className="row justify-content-center">
+          <div className="col-md-6">
+            <ApolloProvider client={patientClient}>
+              {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
+              {!token && <PatientSignupForm />}
+            </ApolloProvider>
+          </div>
         </div>
       )}
     </div>
