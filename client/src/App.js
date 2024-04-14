@@ -33,45 +33,53 @@ function App() {
   // Determine if the user is logged in
   const isLoggedIn = token !== null;
 
-  // Render JSX for App component
-  return (
-    <div className="container">
-      {!isLoggedIn && (
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <h1 className="text-center">Welcome to Our Healthcare Portal</h1>
-            <p className="text-center">Please select your role:</p>
-            <div className="text-center">
-              <button className="btn btn-success mr-2" onClick={() => setUserType('nurse')}>I'm a Nurse</button>
-              <button className="btn btn-primary" onClick={() => setUserType('patient')}>I'm a Patient</button>
+ // Render JSX for App component
+ return (
+  <div className="container">
+    {!isLoggedIn && (
+      <div className="row justify-content-center mt-5">
+        <div className="col-md-6">
+          <h1 className="text-center mb-4">Welcome to Our Healthcare Portal</h1>
+          <p className="lead text-center">Please select your role:</p>
+          <div className="d-flex justify-content-center">
+            <button className="btn btn-lg btn-success mr-2" onClick={() => setUserType('nurse')}>I'm a Nurse</button>
+            <button className="btn btn-lg btn-primary" onClick={() => setUserType('patient')}>I'm a Patient</button>
+          </div>
+        </div>
+      </div>
+    )}
+
+    {userType === 'nurse' && (
+      <div className="row justify-content-center mt-5">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <ApolloProvider client={nurseClient}>
+                {!token ? <NurseLoginForm setToken={setToken} /> : <NurseLogoutButton setToken={setToken} />}
+                {!token && <NurseSignupForm />}
+              </ApolloProvider>
             </div>
           </div>
         </div>
-      )}
+      </div>
+    )}
 
-      {userType === 'nurse' && (
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <ApolloProvider client={nurseClient}>
-              {!token ? <NurseLoginForm setToken={setToken} /> : <NurseLogoutButton setToken={setToken} />}
-              {!token && <NurseSignupForm />}
-            </ApolloProvider>
+    {userType === 'patient' && (
+      <div className="row justify-content-center mt-5">
+        <div className="col-md-6">
+          <div className="card">
+            <div className="card-body">
+              <ApolloProvider client={patientClient}>
+                {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
+                {!token && <PatientSignupForm />}
+              </ApolloProvider>
+            </div>
           </div>
         </div>
-      )}
-
-      {userType === 'patient' && (
-        <div className="row justify-content-center">
-          <div className="col-md-6">
-            <ApolloProvider client={patientClient}>
-              {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
-              {!token && <PatientSignupForm />}
-            </ApolloProvider>
-          </div>
-        </div>
-      )}
-    </div>
-  );
+      </div>
+    )}
+  </div>
+);
 }
 
 // Export App component
