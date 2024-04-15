@@ -98,7 +98,6 @@ const PatientPage = ({ setToken }) => {
       {showFitnessGame && <FitnessGame />}
       {showDailyVitals && (
         <ApolloProvider client={patientClient}>
-          <CreateActivity/>
           <DailyVitals />
         </ApolloProvider>
       )}

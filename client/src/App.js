@@ -11,9 +11,7 @@ import NurseLogoutButton from './nurse/Home';
 import PatientSignupForm from './patient/SignupForm';
 import PatientLoginForm from './patient/LoginForm';
 import PatientLogoutButton from './patient/Home';
-import Create from './patient/DailyVitals';
-import Home from './patient/Home';
-import CreateActivity from './patient/CreateFitnessActivity';
+
 
 // Create an Apollo Client instance for the nurse service
 const nurseClient = new ApolloClient({
@@ -79,14 +77,10 @@ function App() {
 
                   
                   {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
-                  {!token && <PatientLoginForm/>}
+                  {!token && <PatientSignupForm/>}
 
-                 <Create/> 
-                 <Home/>
-                 <CreateActivity/>
-                 
-                  
-                  
+
+                                
                 </ApolloProvider>
               </div>
             </div>
