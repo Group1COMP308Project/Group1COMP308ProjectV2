@@ -1,8 +1,8 @@
 // Import required modules
 import React, { useState } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import './globalStyles.css'; // Import the styles.css file
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './globalStyles.css'; // Import the styles.css file
 
 // Import components
 import NurseSignupForm from './nurse/SignupForm';
@@ -33,53 +33,57 @@ function App() {
   // Determine if the user is logged in
   const isLoggedIn = token !== null;
 
- // Render JSX for App component
- return (
-  <div className="container">
-    {!isLoggedIn && (
-      <div className="row justify-content-center mt-5">
-        <div className="col-md-6">
-          <h1 className="text-center mb-4">Welcome to Our Healthcare Portal</h1>
-          <p className="lead text-center">Please select your role:</p>
-          <div className="d-flex justify-content-center">
-            <button className="btn btn-lg btn-success mr-2" onClick={() => setUserType('nurse')}>I'm a Nurse</button>
-            <button className="btn btn-lg btn-primary" onClick={() => setUserType('patient')}>I'm a Patient</button>
+  // Render JSX for App component
+  return (
+    <div className="container">
+      {!isLoggedIn && (
+        <div className="row justify-content-center mt-2">
+          <div className="col-md-10">
+            <h1 className="text-center mb-10">Welcome to Our Healthcare Portal</h1>
+            <p className="lead text-center">Please select your role:</p>
+            <div className="d-flex justify-content-center">
+              <button className="btn btn-lg btn-success" onClick={() => setUserType('nurse')}>I'm a Nurse</button>
+              <button className="btn btn-lg btn-primary" onClick={() => setUserType('patient')}>I'm a Patient</button>
+            </div>
           </div>
+          <div className="text-center mb-2">
+              <img src="/healthcarePortal.png" alt="Healthcare Portal" style={{ maxWidth: '600px', maxHeight: '140px'}} />
+            </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {userType === 'nurse' && (
-      <div className="row justify-content-center mt-5">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <ApolloProvider client={nurseClient}>
-                {!token ? <NurseLoginForm setToken={setToken} /> : <NurseLogoutButton setToken={setToken} />}
-                {!token && <NurseSignupForm />}
-              </ApolloProvider>
+      {userType === 'nurse' && (
+        <div className="row justify-content-center mt-8">
+          <div className="col-md-10">
+            <div className="card">
+              <div className="card-body">
+                <ApolloProvider client={nurseClient}>
+                  {!token ? <NurseLoginForm setToken={setToken} /> : <NurseLogoutButton setToken={setToken} />}
+                  {!token && <NurseSignupForm />}
+                </ApolloProvider>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {userType === 'patient' && (
-      <div className="row justify-content-center mt-5">
-        <div className="col-md-6">
-          <div className="card">
-            <div className="card-body">
-              <ApolloProvider client={patientClient}>
-                {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
-                {!token && <PatientSignupForm />}
-              </ApolloProvider>
+      {userType === 'patient' && (
+        <div className="row justify-content-center mt-8">
+          <div className="col-md-10">
+            <div className="card">
+              <div className="card-body">
+                <ApolloProvider client={patientClient}>
+                  {!token ? <PatientLoginForm setToken={setToken} /> : <PatientLogoutButton setToken={setToken} />}
+                  {!token && <PatientSignupForm />}
+                </ApolloProvider>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )}
-  </div>
-);
+      )}
+  
+    </div>
+  );
 }
 
 // Export App component

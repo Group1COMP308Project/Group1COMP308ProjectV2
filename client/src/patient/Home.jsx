@@ -56,7 +56,7 @@ const PatientPage = ({ setToken }) => {
     };
 
     return (
-      <button className="btn btn-primary ml-2 mb-2" onClick={handleLogout}>Logout</button>
+      <button className="btn btn-danger ml-2 mb-2" onClick={handleLogout}>Logout</button>
     );
   };
 
@@ -64,7 +64,7 @@ const PatientPage = ({ setToken }) => {
     <div className="container mt-5">
       <h1>Patient Page</h1>
       <p>Welcome to the Patient Page. Here you can access patient-specific features.</p>
-      <div className="d-flex flex-wrap justify-content-center mb-4">
+      <div className="d-flex flex-wrap justify-content-center mb-6">
         <button className="btn btn-primary mr-2 mb-2" onClick={handleEmergencyButtonClick}>Create emergency alert</button>
         <button className="btn btn-primary mr-2 mb-2" onClick={handleDailyTipsButtonClick}>Daily Tips</button>
         <button className="btn btn-primary mr-2 mb-2">Fitness games page</button>

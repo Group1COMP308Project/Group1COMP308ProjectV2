@@ -1,6 +1,7 @@
 // Import required modules
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
+import './LoginForm.css';
 
 // Define GraphQL mutation for signup
 const SIGNUP_MUTATION = gql`
@@ -48,8 +49,9 @@ const NurseSignupForm = () => {
 
   // Render signup form JSX
   return (
-    <div>
+    <div className="login-container">
       <h2>Nurse Sign Up</h2>
+      <form className="login-form">
       <input type="text" placeholder="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
       <input type="text" placeholder="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} />
       <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -57,6 +59,7 @@ const NurseSignupForm = () => {
       <button onClick={handleSignup} disabled={loading}>Sign Up</button> {/* Signup button */}
       {error && <p>Error: {error.message}</p>} {/* Display error message if exists */}
       {signupSuccess && <p>You are now signed up!</p>} {/* Display signup success message */}
+      </form>
     </div>
   );
 };

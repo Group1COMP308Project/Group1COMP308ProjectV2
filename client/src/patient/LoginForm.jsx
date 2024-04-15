@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation, gql } from '@apollo/client';
+import './LoginForm.css';
 
 const LOGIN_MUTATION = gql`
   mutation Login($email: String!, $password: String!) {
@@ -35,12 +36,14 @@ const LoginForm = ({ setToken, handleLoginSuccess }) => {
     };
   
     return (
-      <div>
+      <div className="login-container">
         <h2>Patient Login</h2>
+        <form className="login-form">
         <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
         <button onClick={handleLogin} disabled={loading}>Login</button>
         {error && <p>Error: {error.message}</p>}
+        </form>
       </div>
     );
   };
