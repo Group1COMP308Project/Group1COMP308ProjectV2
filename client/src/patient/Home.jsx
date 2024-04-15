@@ -4,7 +4,7 @@ import DailyTips from './DailyTips';
 import Emergency from './Emergency';
 import SymptomsCheck from './SymptomsCheck';
 import DailyVitals from './DailyVitals';
-import CreateActivity from './CreateFitnessActivity';
+import FitnessGame from './FitnessGame';
 
 // Create Apollo Client instances for each service
 const nurseClient = new ApolloClient({
@@ -22,14 +22,14 @@ const PatientPage = ({ setToken }) => {
   const [showEmergency, setShowEmergency] = useState(false);
   const [showSymptomsChecklist, setShowSymptomsChecklist] = useState(false);
   const [showDailyVitals, setShowDailyVitals] = useState(false);
-  const [showactivity,setshowactivity] = useState(false);
+  const [showFitnessGame,setshowFitnessGame] = useState(false);
 
   const handleEmergencyButtonClick = () => {
     setShowEmergency(true);
     setShowDailyTips(false);
     setShowSymptomsChecklist(false);
     setShowDailyVitals(false);
-    setshowactivity(false);
+    setshowFitnessGame(false);
   };
 
   const handleDailyTipsButtonClick = () => {
@@ -37,7 +37,7 @@ const PatientPage = ({ setToken }) => {
     setShowEmergency(false);
     setShowSymptomsChecklist(false);
     setShowDailyVitals(false);
-    setshowactivity(false);
+    setshowFitnessGame(false);
   };
 
   const handleSymptomsCheckListClick = () => {
@@ -45,7 +45,7 @@ const PatientPage = ({ setToken }) => {
     setShowEmergency(false);
     setShowDailyTips(false);
     setShowDailyVitals(false);
-    setshowactivity(false);
+    setshowFitnessGame(false);
   };
 
   const handleDailyVitalsButtonClick = () => {
@@ -53,7 +53,15 @@ const PatientPage = ({ setToken }) => {
     setShowEmergency(false);
     setShowDailyTips(false);
     setShowSymptomsChecklist(false);
-    setshowactivity(false);
+    setshowFitnessGame(false);
+  };
+
+  const handleFitnessGameButtonClick = () => {
+    setShowDailyVitals(false);
+    setShowEmergency(false);
+    setShowDailyTips(false);
+    setShowSymptomsChecklist(false);
+    setshowFitnessGame(true);
   };
 
   const LogoutButton = ({ setToken }) => {
@@ -73,10 +81,10 @@ const PatientPage = ({ setToken }) => {
       <div className="d-flex flex-wrap justify-content-center mb-6">
         <button className="btn btn-primary mr-2 mb-2" onClick={handleEmergencyButtonClick}>Create emergency alert</button>
         <button className="btn btn-primary mr-2 mb-2" onClick={handleDailyTipsButtonClick}>Daily Tips</button>
-        <button className="btn btn-primary mr-2 mb-2">Fitness games page</button>
+        <button className="btn btn-primary mr-2 mb-2" onClick={handleFitnessGameButtonClick}>Fitness games page</button>
         <button className="btn btn-primary mr-2 mb-2" onClick={handleDailyVitalsButtonClick}>Enter daily information</button>
         <button className="btn btn-primary mb-2" onClick={handleSymptomsCheckListClick}>Checklist of common signs and symptoms</button>
-        <button className="btn btn-primary mb-2" onClick={handleSymptomsCheckListClick}>Button for activities</button>
+    
         <LogoutButton setToken={setToken} />
       </div>
       {showDailyTips && (
@@ -86,9 +94,9 @@ const PatientPage = ({ setToken }) => {
       )}
       {showEmergency && <Emergency />}
       {showSymptomsChecklist && <SymptomsCheck />}
+      {showFitnessGame && <FitnessGame />}
       {showDailyVitals && (
         <ApolloProvider client={patientClient}>
-          <CreateActivity/>
           <DailyVitals />
         </ApolloProvider>
       )}

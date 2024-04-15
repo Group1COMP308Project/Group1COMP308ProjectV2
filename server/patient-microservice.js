@@ -19,6 +19,10 @@ const vitalsResolvers = require('./Resolvers/DailyVitalsResolver');  // Import r
 const vitalsTypeDefs = require('./schema/dailyVitalsTypeDefs');  // Import type definitions for patient schema
 const Vitals = require('./models/DailyVitals');  // Import type definitions for patient schema
 
+const gameResolvers = require('./Resolvers/fitnessGameResolver');  // Import resolvers for patient schema
+const gameTypeDefs = require('./schema/fitnessGameSchema');  // Import type definitions for patient schema
+const Games = require('./models/FitnessGame');  // Import type definitions for patient schema
+
 const Visit = require('./models/Visit');  // Import type definitions for patient schema
 
 // Initialize Express app
@@ -31,11 +35,11 @@ const PORT = process.env.PORT || 4001;
 async function startApolloServer() {
   // Create ApolloServer instance with type definitions, resolvers, and context
   const server = new ApolloServer({
-    typeDefs: [patientTypeDefs, emergencyTypeDefs,symptomsTypeDefs, vitalsTypeDefs],
-    resolvers: [patientResolvers, emergencyResolvers, symptomsResolvers, vitalsResolvers],
+    typeDefs: [patientTypeDefs, emergencyTypeDefs,symptomsTypeDefs, vitalsTypeDefs, gameTypeDefs],
+    resolvers: [patientResolvers, emergencyResolvers, symptomsResolvers, vitalsResolvers, gameResolvers],
     context: ({ req }) => ({
       req,
-      Patient,Visit,Emergency, Symptoms, Vitals 
+      Patient,Visit,Emergency, Symptoms, Vitals, Games 
     }),  
   });
 
