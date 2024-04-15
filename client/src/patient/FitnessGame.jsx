@@ -13,7 +13,7 @@ const ADD_POINTS_MUTATION = gql`
 const FitnessGame = () => {
   const [userId, setUserId] = useState('');
   const [selectedActivities, setSelectedActivities] = useState([]);
-  const [totalPoints, setTotalPoints] = useState(0); // State variable for total points
+  const [, setTotalPoints] = useState(0); // State variable for total points
   const [message, setMessage] = useState('');
 
   const [addPointsMutation] = useMutation(ADD_POINTS_MUTATION);
@@ -25,7 +25,10 @@ const FitnessGame = () => {
 
   // Function to handle activity selection
   const handleActivitySelect = (activity) => {
-    if (!selectedActivities.includes(activity)) {
+    // If the activity is already selected, remove it from the list
+    if (selectedActivities.includes(activity)) {
+      setSelectedActivities(selectedActivities.filter(a => a !== activity));
+    } else { // Otherwise, add it to the list
       setSelectedActivities([...selectedActivities, activity]);
     }
   };
@@ -47,6 +50,11 @@ const FitnessGame = () => {
       } else if (activity === 'swim') {
         pointsToAdd += 20;
       }
+    }
+
+    if (pointsToAdd === 0) {
+      setMessage('Please select at least one activity to add points.');
+      return;
     }
 
     // Display message with total points to be added
