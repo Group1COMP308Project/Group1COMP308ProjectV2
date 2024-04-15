@@ -4,6 +4,7 @@ import DailyTips from './DailyTips';
 import Emergency from './Emergency';
 import SymptomsCheck from './SymptomsCheck';
 import DailyVitals from './DailyVitals';
+import CreateActivity from './CreateFitnessActivity';
 
 // Create Apollo Client instances for each service
 const nurseClient = new ApolloClient({
@@ -21,12 +22,14 @@ const PatientPage = ({ setToken }) => {
   const [showEmergency, setShowEmergency] = useState(false);
   const [showSymptomsChecklist, setShowSymptomsChecklist] = useState(false);
   const [showDailyVitals, setShowDailyVitals] = useState(false);
+  const [showactivity,setshowactivity] = useState(false);
 
   const handleEmergencyButtonClick = () => {
     setShowEmergency(true);
     setShowDailyTips(false);
     setShowSymptomsChecklist(false);
     setShowDailyVitals(false);
+    setshowactivity(false);
   };
 
   const handleDailyTipsButtonClick = () => {
@@ -34,6 +37,7 @@ const PatientPage = ({ setToken }) => {
     setShowEmergency(false);
     setShowSymptomsChecklist(false);
     setShowDailyVitals(false);
+    setshowactivity(false);
   };
 
   const handleSymptomsCheckListClick = () => {
@@ -41,6 +45,7 @@ const PatientPage = ({ setToken }) => {
     setShowEmergency(false);
     setShowDailyTips(false);
     setShowDailyVitals(false);
+    setshowactivity(false);
   };
 
   const handleDailyVitalsButtonClick = () => {
@@ -48,6 +53,7 @@ const PatientPage = ({ setToken }) => {
     setShowEmergency(false);
     setShowDailyTips(false);
     setShowSymptomsChecklist(false);
+    setshowactivity(false);
   };
 
   const LogoutButton = ({ setToken }) => {
@@ -70,6 +76,7 @@ const PatientPage = ({ setToken }) => {
         <button className="btn btn-primary mr-2 mb-2">Fitness games page</button>
         <button className="btn btn-primary mr-2 mb-2" onClick={handleDailyVitalsButtonClick}>Enter daily information</button>
         <button className="btn btn-primary mb-2" onClick={handleSymptomsCheckListClick}>Checklist of common signs and symptoms</button>
+        <button className="btn btn-primary mb-2" onClick={handleSymptomsCheckListClick}>Button for activities</button>
         <LogoutButton setToken={setToken} />
       </div>
       {showDailyTips && (
@@ -81,6 +88,7 @@ const PatientPage = ({ setToken }) => {
       {showSymptomsChecklist && <SymptomsCheck />}
       {showDailyVitals && (
         <ApolloProvider client={patientClient}>
+          <CreateActivity/>
           <DailyVitals />
         </ApolloProvider>
       )}

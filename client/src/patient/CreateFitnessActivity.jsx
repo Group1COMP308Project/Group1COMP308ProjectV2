@@ -47,7 +47,8 @@ return (
           <label>First Name:</label>
           <input type="text" value={firstname} onChange={(e) => setFirstname((e.target.value))} required />
         </div>
-        
+        <button type="submit">Add a activity</button>
+
       </form>
     </div>
   );
