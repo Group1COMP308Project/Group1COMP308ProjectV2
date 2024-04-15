@@ -5,6 +5,7 @@ import Emergency from './Emergency';
 import SymptomsCheck from './SymptomsCheck';
 import DailyVitals from './DailyVitals';
 
+
 // Create Apollo Client instances for each service
 const nurseClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',

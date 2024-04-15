@@ -15,13 +15,15 @@ const GET_ACTIVITIES = gql`
 
 `;
 
-const getActivity = () => {
+const GetActivity = () => {
     const { loading,refetch } = useQuery(GET_ACTIVITIES);
     const fetchGames = ()=> {
         refetch();
     }
 
-
+   
+      
+    
 
     if (loading) return <p>Loading...</p>
 
@@ -32,7 +34,7 @@ const getActivity = () => {
         
         <button onClick={fetchGames}>Refetch activities</button>
         
-        {games.map((activity) => (
+        {GetActivity.map((activity) => (
             <div key={activity.id} className="activity">
                 <div>Id</div>
                 <div>{activity.id}</div>
@@ -52,4 +54,4 @@ const getActivity = () => {
 
 };
 
-export default getActivity;
+export default GetActivity;
