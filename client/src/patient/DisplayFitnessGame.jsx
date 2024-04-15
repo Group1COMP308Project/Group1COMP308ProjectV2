@@ -32,7 +32,7 @@ const getActivity = () => {
         
         <button onClick={fetchGames}>Refetch activities</button>
         
-        {Games.map((activity) => (
+        {games.map((activity) => (
             <div key={activity.id} className="activity">
                 <div>Id</div>
                 <div>{activity.id}</div>
