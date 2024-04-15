@@ -6,6 +6,7 @@ import SymptomsCheck from './SymptomsCheck';
 import DailyVitals from './DailyVitals';
 import FitnessGame from './FitnessGame';
 
+
 // Create Apollo Client instances for each service
 const nurseClient = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
@@ -84,7 +85,7 @@ const PatientPage = ({ setToken }) => {
         <button className="btn btn-primary mr-2 mb-2" onClick={handleFitnessGameButtonClick}>Fitness games page</button>
         <button className="btn btn-primary mr-2 mb-2" onClick={handleDailyVitalsButtonClick}>Enter daily information</button>
         <button className="btn btn-primary mb-2" onClick={handleSymptomsCheckListClick}>Checklist of common signs and symptoms</button>
-    
+        <button className="btn btn-primary mb-2" onClick={handleSymptomsCheckListClick}>Button for activities</button>
         <LogoutButton setToken={setToken} />
       </div>
       {showDailyTips && (
@@ -97,6 +98,7 @@ const PatientPage = ({ setToken }) => {
       {showFitnessGame && <FitnessGame />}
       {showDailyVitals && (
         <ApolloProvider client={patientClient}>
+          <CreateActivity/>
           <DailyVitals />
         </ApolloProvider>
       )}
